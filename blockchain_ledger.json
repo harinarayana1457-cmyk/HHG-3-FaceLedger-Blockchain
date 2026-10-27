@@ -1,7 +1,7 @@
 {
   "chain_id": "FACE-VERIFY-CHAIN-2026",
   "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa",
-  "block_height": 17,
+  "block_height": 35,
   "blocks": [
     {
       "index": 0,
@@ -493,6 +493,528 @@
       "difficulty": 2,
       "hash": "00827787d59180317df37c70a28dacda50931c913018c4b4db62b926add5f837",
       "signature": "bdce4c3c7094f7f7c7eaba2460db3d25739feb9ba3223858eaee9174488f9c39f267a8469bd8964053769fa934c4502710588cf5162fbd77268e20277a7852d9"
+    },
+    {
+      "index": 17,
+      "timestamp": "2026-09-06T12:21:00Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "3cee0f4696768cb34e2186ffdd5a90715f19c05f911d08b3e5900bb0512ed6c0",
+          "record_id": "b84c9995f3c7b562",
+          "post_url": "https://filmfare.wwmindia.com/content/2020/nov/kareenaanushka21604302061.jpg",
+          "author": "filmfare.wwmindia.com",
+          "title": "Similar image on filmfare.wwmindia.com",
+          "content_snippet": "Visually similar image found at filmfare.wwmindia.com.",
+          "source_platform": "Web",
+          "image_hash_sha256": "b84c9995f3c7b562",
+          "phash": "e0c8cccc8c8e8ac4",
+          "face_embedding_digest": "0.095244,0.096246,0.077315,0.049322,0.046656,0.550133,0.049322,0.095978",
+          "timestamp": "2026-09-06T12:21:00Z",
+          "merkle_leaf_hash": "c05510c42e334671449c941ba54b2678d03c957979f54cb1364d026f3017ac8a",
+          "signature": "1f67b6d16ac7610730865c825fc3451dff28b142df3ffa7e74df9cfda76cee2e53327b3750e415c8dc18ade3316cb819075491f34e0590dab36711e34483c1b6",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "3cee0f4696768cb34e2186ffdd5a90715f19c05f911d08b3e5900bb0512ed6c0",
+      "previous_hash": "00827787d59180317df37c70a28dacda50931c913018c4b4db62b926add5f837",
+      "nonce": 23,
+      "difficulty": 2,
+      "hash": "009ee7f9c4e74ba57d30c3581424fb5f82b3faec8e5ffb12fb38944f868eebd5",
+      "signature": "d03208e4127c9c57b410d1866bcd01c9cba68d6dd5a2bbd4c46212390b65ec3cef55f2c8797a5e3b81490f4c6c941a65be61b3709c405d3b8db5d1a9fbbe02a0"
+    },
+    {
+      "index": 18,
+      "timestamp": "2026-09-06T12:29:17Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "0e52abd0e980c82c7609420d410f5fd15b884be8c886b91d1fb70938b20361db",
+          "record_id": "b84c9995f3c7b562",
+          "post_url": "https://filmfare.wwmindia.com/content/2020/nov/kareenaanushka21604302061.jpg",
+          "author": "filmfare.wwmindia.com",
+          "title": "Similar image on filmfare.wwmindia.com",
+          "content_snippet": "Visually similar image found at filmfare.wwmindia.com.",
+          "source_platform": "Web",
+          "image_hash_sha256": "b84c9995f3c7b562",
+          "phash": "e0c8eccccc8e9ac4",
+          "face_embedding_digest": "0.10411,0.098414,0.079568,0.050671,0.048199,0.537309,0.050671,0.09887",
+          "timestamp": "2026-09-06T12:29:17Z",
+          "merkle_leaf_hash": "cdf453fd4b10af83acd1fa8ef2810e514690020fa0aa9948ee78dff1e98e4a77",
+          "signature": "161933694dd76a2a09918b534781f2b06fe2de3ced5f9d44abf0c91062ed0ec41a100adb815e95bb3d9a1d20b95dad54a364fa7529eeee3e38ca606647b263b6",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "0e52abd0e980c82c7609420d410f5fd15b884be8c886b91d1fb70938b20361db",
+      "previous_hash": "009ee7f9c4e74ba57d30c3581424fb5f82b3faec8e5ffb12fb38944f868eebd5",
+      "nonce": 242,
+      "difficulty": 2,
+      "hash": "000a4b1c345ca4241dc77d43102e3987b1ec16f65eedce3fe3eeff886fd980bc",
+      "signature": "41f8a66bd8b5fb9730b207c4f1c79b3717c028bce8bdc4a29755f4f4baee41ab957f245d1ffda90abd304cdc0670b023f6d7e8b9ce8ba4c8308f3110b3bf3e20"
+    },
+    {
+      "index": 19,
+      "timestamp": "2026-09-06T12:30:08Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "544db18389282a1e2d1e76f2619c0607b25053b66acbaebe13f3ed0c8d44cd74",
+          "record_id": "ca9fd9e404f86b0e",
+          "post_url": "https://upload.wikimedia.org/wikipedia/commons/6/6e/Shah_Rukh_Khan_graces_the_launch_of_the_new_Santro.jpg",
+          "author": "upload.wikimedia.org",
+          "title": "Similar image on upload.wikimedia.org",
+          "content_snippet": "Visually similar image found at upload.wikimedia.org.",
+          "source_platform": "Wikipedia",
+          "image_hash_sha256": "ca9fd9e404f86b0e",
+          "phash": "61c844cc1c0da945",
+          "face_embedding_digest": "0.067625,0.099521,0.079829,0.048813,0.046936,0.553995,0.048813,0.095749",
+          "timestamp": "2026-09-06T12:30:08Z",
+          "merkle_leaf_hash": "b7d7678c8d19aecc78f8b1f37f3d228aa571d1ac0f156d90def23bc1727a9278",
+          "signature": "c38e2c12d114a8ce73b8a69505a483d57eaf32127adc4491afd04a64a1dd672bf340d9d3e524c46ccd240837a6a45c8cc503765538b7bb0779bd834d036b42e4",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "544db18389282a1e2d1e76f2619c0607b25053b66acbaebe13f3ed0c8d44cd74",
+      "previous_hash": "000a4b1c345ca4241dc77d43102e3987b1ec16f65eedce3fe3eeff886fd980bc",
+      "nonce": 691,
+      "difficulty": 2,
+      "hash": "00ab2b54dbd4503db05069b4fd664d80a1716954881ba19a619be27f9ea867e8",
+      "signature": "1e731de4500a6f3827c0ac03864f2778e17845634bfd755a598684a1ae40bbdbc869748cecbcf3406e0356d2fd11972433709bed0c7ea1ed839793c17d49751f"
+    },
+    {
+      "index": 20,
+      "timestamp": "2026-09-06T12:31:52Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "a287d1310a870a129d06b1c6d711021419f1fd90d20105e87f72167b00d681e6",
+          "record_id": "f515ab57ab5cdb8d",
+          "post_url": "https://i.pinimg.com/originals/89/fd/f3/89fdf33d12c46f44b632180d77f1e3db.jpg",
+          "author": "i.pinimg.com",
+          "title": "Similar image on i.pinimg.com",
+          "content_snippet": "Visually similar image found at i.pinimg.com.",
+          "source_platform": "Pinterest",
+          "image_hash_sha256": "f515ab57ab5cdb8d",
+          "phash": "39316969494b7a7e",
+          "face_embedding_digest": "0.009952,0.011097,0.011097,0.006203,0.005858,0.995199,0.006203,0.012061",
+          "timestamp": "2026-09-06T12:31:52Z",
+          "merkle_leaf_hash": "eebe8a9513740a9bf1b3c9a48794369bef027305a09b9dbf19ae92d967c70141",
+          "signature": "f6dbd7d1c21d68460286cec4d7473783cbb9ad0ec8b4253305b29be11a11c44d99ae62a37ba92dcbeb440baa7456401d8d7eec24486f6ff8ff9487a135b4fe35",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "a287d1310a870a129d06b1c6d711021419f1fd90d20105e87f72167b00d681e6",
+      "previous_hash": "00ab2b54dbd4503db05069b4fd664d80a1716954881ba19a619be27f9ea867e8",
+      "nonce": 43,
+      "difficulty": 2,
+      "hash": "00ed24bc2478499430787544a75be53726a1594d106b6c95cbf0c4bd5dcf5ab7",
+      "signature": "2185346f1f5ab259215b586cf339f52f550cedd3d2dbae3e33f04cdf2fa1ebaea5cbb36943aaf3506133b4d7e39d49a57775fa5721a89edf487ee14f39c8a1fe"
+    },
+    {
+      "index": 21,
+      "timestamp": "2026-09-06T12:34:12Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "fc6b7c394e616617e85cb2c242c48bd70da1182ab11b44dc55e0cfa22c3585f6",
+          "record_id": "de20618c5b98df51",
+          "post_url": "https://www.happyhey.com/images/the-big-bang-theory-tab/353.jpg",
+          "author": "www.happyhey.com",
+          "title": "Similar image on www.happyhey.com",
+          "content_snippet": "Visually similar image found at www.happyhey.com.",
+          "source_platform": "Web",
+          "image_hash_sha256": "de20618c5b98df51",
+          "phash": "9bd6968a4c8e8d8a",
+          "face_embedding_digest": "0.009698,0.027915,0.027216,0.016144,0.014991,0.969823,0.016144,0.031136",
+          "timestamp": "2026-09-06T12:34:12Z",
+          "merkle_leaf_hash": "f1270cb6ba7a33c27956bfd7c1a639dc109e624757f85ab77f922ebde6a44ab6",
+          "signature": "cf16f03355c93ef55f1b8a088e8ffe581a6ae8ca3377056aa1cdd840cfbd48aaa8b7426e8349185351d71d06bdbabea1aaecb469d716701ca3073dba936671a3",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "fc6b7c394e616617e85cb2c242c48bd70da1182ab11b44dc55e0cfa22c3585f6",
+      "previous_hash": "00ed24bc2478499430787544a75be53726a1594d106b6c95cbf0c4bd5dcf5ab7",
+      "nonce": 203,
+      "difficulty": 2,
+      "hash": "00fbb7f8287410b85f07bc4bcd66e84e7be3e6483d901f363d87aecf17d01148",
+      "signature": "669981ea10eb7c0b4f132bf91c2f17371a0d0e2aef82d1d609770cc065f876bf2e27ebb582fcac34289d76284f5a6fe76b35acb4939c6b9418e0bc6ab05ba56e"
+    },
+    {
+      "index": 22,
+      "timestamp": "2026-09-06T12:38:50Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "0d1b59ea3172cfd928f38a1aee9d4185ff2e72c2d14ad079ce7ffc6cc69bc781",
+          "record_id": "52399ea0a5e1aeb6",
+          "post_url": "https://upload.wikimedia.org/wikipedia/commons/4/4d/Shahrukh_Khan_CE.jpg",
+          "author": "upload.wikimedia.org",
+          "title": "Similar image on upload.wikimedia.org",
+          "content_snippet": "Visually similar image found at upload.wikimedia.org.",
+          "source_platform": "Wikipedia",
+          "image_hash_sha256": "52399ea0a5e1aeb6",
+          "phash": "f8783eeaa6c49cfc",
+          "face_embedding_digest": "0.019524,0.024265,0.024179,0.014784,0.013915,0.976093,0.014784,0.028699",
+          "timestamp": "2026-09-06T12:38:50Z",
+          "merkle_leaf_hash": "d64b086e577d1c6a1f7600ed9823eef4b50aea2d13d1c9373a0540ccd776da88",
+          "signature": "09e1b33e5feff627da90aa64b2db3bc64612578f285ff89860d413553ecd5c995afcea0e60c2efd0c54dcddab3d908c9edc70c2e21ea44b470c24a1bad45d0a4",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "0d1b59ea3172cfd928f38a1aee9d4185ff2e72c2d14ad079ce7ffc6cc69bc781",
+      "previous_hash": "00fbb7f8287410b85f07bc4bcd66e84e7be3e6483d901f363d87aecf17d01148",
+      "nonce": 125,
+      "difficulty": 2,
+      "hash": "00f0256af2b1f12703d0055ccf6fa41e85be6e973215b123c695828ace43b49a",
+      "signature": "9ee9edc922db8e2c047d5cac35a0ef67c2c95581dc7460c0a4d8cbd9e0c7b827f59f3ce4964d80a2cad7218162e995e6e65f6e434065c9355db120d4ee096340"
+    },
+    {
+      "index": 23,
+      "timestamp": "2026-10-27T18:06:03Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "1b6d5b5362b270e6fa82b11a0849a311f615db905e3edb0b1de5df6581a992ca",
+          "record_id": "c8954848254e419b",
+          "post_url": "https://i.ytimg.com/vi/kM7s1BdNPNY/maxresdefault.jpg",
+          "author": "i.ytimg.com",
+          "title": "Similar image on i.ytimg.com",
+          "content_snippet": "Visually similar image found at i.ytimg.com.",
+          "source_platform": "YouTube",
+          "image_hash_sha256": "c8954848254e419b",
+          "phash": "0b0163826000c0c0",
+          "face_embedding_digest": "0.009966,0.006282,0.006151,0.001655,0.001379,0.996555,0.001655,0.003034",
+          "timestamp": "2026-10-27T18:06:03Z",
+          "merkle_leaf_hash": "583218a0331404300a7efd0686df89e7df2d725bd396e0654d642822d091bb71",
+          "signature": "f64551b63134b3cdfbe04e1e5a4994f0b3a51ab4ad5b38d02d848bed709b1c8f8ea6534877adff6f78423fa50d2ecc1323132249997d57c7ccd1f6eac54676fe",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "1b6d5b5362b270e6fa82b11a0849a311f615db905e3edb0b1de5df6581a992ca",
+      "previous_hash": "00f0256af2b1f12703d0055ccf6fa41e85be6e973215b123c695828ace43b49a",
+      "nonce": 51,
+      "difficulty": 2,
+      "hash": "00e1cf9bc63cc334b66af07a280da6f1eeebcc424d48d43cd2fe7497b96f4aca",
+      "signature": "739b33303bd45061cab1ff19b49c52d31128598df11e507a1b35e5041c9fbf919accf2e4c850e7ab65e2440221d226c675857bda2b22a14932e040c765684381"
+    },
+    {
+      "index": 24,
+      "timestamp": "2026-10-27T18:06:36Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "d261ba48cdab591d437d9c64ef09e8fd3dbe412913d9af325408ec084356cc44",
+          "record_id": "35bc132def5f4afa",
+          "post_url": "https://static01.nyt.com/athletic/uploads/wp/2026/08/26064543/MOHAMMAD-AMIR-NOTTS-scaled-e1787741211121.jpg?width=1920&quality=70&auto=webp",
+          "author": "static01.nyt.com",
+          "title": "Similar image on static01.nyt.com",
+          "content_snippet": "Visually similar image found at static01.nyt.com.",
+          "source_platform": "Web",
+          "image_hash_sha256": "35bc132def5f4afa",
+          "phash": "9c5ee6e5e3c5c7e7",
+          "face_embedding_digest": "0.009869,0.018813,0.018526,0.010235,0.009747,0.98692,0.010235,0.019982",
+          "timestamp": "2026-10-27T18:06:36Z",
+          "merkle_leaf_hash": "77509a04a1a125b7e541840b51d618de5bbed54c79be3becc5bc4f5f71fd8e46",
+          "signature": "dfc7b8ac25ca717a0f8bc0553fd812927a5dc5cbeddf6a3f848f45e58249b0703f3fdea9662b006b53052f02006459416a3160e1c25886909b628540522149bf",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "d261ba48cdab591d437d9c64ef09e8fd3dbe412913d9af325408ec084356cc44",
+      "previous_hash": "00e1cf9bc63cc334b66af07a280da6f1eeebcc424d48d43cd2fe7497b96f4aca",
+      "nonce": 711,
+      "difficulty": 2,
+      "hash": "009f54153e535fbb03843d913037c748d0aa14a8541d49c810f76cc70ef4875a",
+      "signature": "a026354e8b012552c52d9eaf1385746e49b78b13a7c83cb8118f24de589dbabea98efa443199b9d8acad8238edfbfd6a457f342cf66ca4b2c216e21ac27f7faa"
+    },
+    {
+      "index": 25,
+      "timestamp": "2026-10-27T18:11:06Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "7ec628d841ec274198b1938a75aea69ad0c50d06144c77599cc5d79ab736eea0",
+          "record_id": "1dfc3750e3f1cdec",
+          "post_url": "https://extra-images.akamaized.net/image/9f/5by6/2026/08/10/9f49b23d6bbd4614b888e839a92d82f8_md.jpg",
+          "author": "extra-images.akamaized.net",
+          "title": "Similar image on extra-images.akamaized.net",
+          "content_snippet": "Visually similar image found at extra-images.akamaized.net.",
+          "source_platform": "Web",
+          "image_hash_sha256": "1dfc3750e3f1cdec",
+          "phash": "31e6e4e44c494949",
+          "face_embedding_digest": "0.009816,0.02189,0.02189,0.012236,0.011556,0.981588,0.012236,0.023792",
+          "timestamp": "2026-10-27T18:11:06Z",
+          "merkle_leaf_hash": "599ccc0ee29d2b8a551c37765386399e37b2082246048cc90ca6fda07076a75c",
+          "signature": "96f695bda7c2d7c2cee8d71303bdd0302b0840b38d3d6c172e4638dede9aaa943b4b1cb415726547d7609cb682095ad667db54c35bdbde515bc6b20e58a077f2",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "7ec628d841ec274198b1938a75aea69ad0c50d06144c77599cc5d79ab736eea0",
+      "previous_hash": "009f54153e535fbb03843d913037c748d0aa14a8541d49c810f76cc70ef4875a",
+      "nonce": 206,
+      "difficulty": 2,
+      "hash": "00d0c27f60080c78da870f528c55a61ae4d2df3a83718a3458ebe6312cc98ba9",
+      "signature": "6f32d77ed37043942c97b224bd6b916b7980f119665f3523cd03206ae5116198c80aebeaaa16018aa3dc6d06fedf7ffecd0ec6104800eacf830f292fa000e6c1"
+    },
+    {
+      "index": 26,
+      "timestamp": "2026-10-27T20:52:31Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "0f06fab476012143ea5e116b07e2fb132412614ea8ec5ff7f37278e7a90efebd",
+          "record_id": "REC-E2E-d25cf67681147f47",
+          "post_url": "https://cdn.pixabay.com/photo/2018/07/28/08/29/face-3567518_1280.png",
+          "author": "cdn.pixabay.com",
+          "title": "Similar image on cdn.pixabay.com",
+          "content_snippet": "Visually similar image found at cdn.pixabay.com.",
+          "source_platform": "Web",
+          "image_hash_sha256": "8397a8a5e1bbb4a56eb8f650e4382e86a8f6679450dc9fac641208b770e9e770",
+          "phash": "007068e8d0f07000",
+          "face_embedding_digest": "2e07ef709a28185fd718a509d3877ba6f0f30c9ce2b3a02a92affae3ed9c26c6",
+          "timestamp": "2026-10-27T20:52:31Z",
+          "merkle_leaf_hash": "0441931c9ec06682b0cf444faea198242a63cf84417f0c49a15d280dd0a19ec7",
+          "signature": "f72b18d82e55e920699ce82f523d52a210e5e00a99179ead28e63bfb928f8dfef12cb780d64f43ba5c29d2faf6ced715656f7d687327d16920021dd544257451",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "0f06fab476012143ea5e116b07e2fb132412614ea8ec5ff7f37278e7a90efebd",
+      "previous_hash": "00d0c27f60080c78da870f528c55a61ae4d2df3a83718a3458ebe6312cc98ba9",
+      "nonce": 230,
+      "difficulty": 2,
+      "hash": "00463946340192e10a919e584d3f0cee683b39511693b608eabe76168cddf297",
+      "signature": "fff58a106cb3bd30caeb621eb8fe1d8e9d5103e35ab481794290e97d35fd0adc9e38fa30d1eb58c95e9772d625acab2c9003d55797230f9106c480e58bf1ac2c"
+    },
+    {
+      "index": 27,
+      "timestamp": "2026-10-27T20:54:21Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "7cb1b7f7762b35096084de419345df958412123cf66153d4b3ae86d8a54ae528",
+          "record_id": "1dfc3750e3f1cdec",
+          "post_url": "https://extra-images.akamaized.net/image/9f/5by6/2026/08/10/9f49b23d6bbd4614b888e839a92d82f8_md.jpg",
+          "author": "extra-images.akamaized.net",
+          "title": "Similar image on extra-images.akamaized.net",
+          "content_snippet": "Visually similar image found at extra-images.akamaized.net.",
+          "source_platform": "Web",
+          "image_hash_sha256": "f71fb644b74ed7cd10e32646510b1fbe9843b90d99b4f95a9ae591a5bc320a6a",
+          "phash": "31e6e4e44c494949",
+          "face_embedding_digest": "2e432686b4084ff070d96259325f647352d630516c528d5f6c0222ff52f3219d",
+          "timestamp": "2026-10-27T20:54:21Z",
+          "merkle_leaf_hash": "2b07993b98ec4cb2cfee12b213934c92045a1802fb51b124077aa5947e4b3303",
+          "signature": "382a17dd047df71a579d09b6d168c235a66f4f307f879ef031f55f15dc559ba6d10da84f993b02375ae95455ed01bf394efcb704150955b374554bd1d308dab3",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "7cb1b7f7762b35096084de419345df958412123cf66153d4b3ae86d8a54ae528",
+      "previous_hash": "00463946340192e10a919e584d3f0cee683b39511693b608eabe76168cddf297",
+      "nonce": 30,
+      "difficulty": 2,
+      "hash": "00a497922c33df63b17357b0e27ab2ce9aedae34bcab7a889640e2c7865667e8",
+      "signature": "8501ecf890f11d907568be4df5f1f46decb20a04a903e6512f7d1e075197a4ed8ed4272cd80f0ca97c78aad26eead66f254efbbc1394a7a0e90d71cd1b05fa55"
+    },
+    {
+      "index": 28,
+      "timestamp": "2026-10-27T20:56:33Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "6d11aa2b76a4b9e60ec22bad2c8b67c1577a61180fae4f0630757151ccb9aeaf",
+          "record_id": "d80267740009332f",
+          "post_url": "https://media.cheggcdn.com/media/8a2/8a290697-b749-428b-9c94-9723ae97ee3a/php8Cfbdo.png",
+          "author": "media.cheggcdn.com",
+          "title": "Similar image on media.cheggcdn.com",
+          "content_snippet": "Visually similar image found at media.cheggcdn.com.",
+          "source_platform": "Web",
+          "image_hash_sha256": "c226c26849d498b34e1cf5c86945fb587451981a6739715102fbf995279cc67a",
+          "phash": "a8941e020676ea00",
+          "face_embedding_digest": "7bb6298cb2dd57f3378502dee2e0cf6d98d466cc7625d38141dec514120db25a",
+          "timestamp": "2026-10-27T20:56:33Z",
+          "merkle_leaf_hash": "d2ff10ed6fce9e2f99033a032ec12815d225c2c14d0927b5dfef482361a706d3",
+          "signature": "4095dd69914a8a9881317eba0a6525f9cfc74be76be344245e92352e0cd312fbcbb0489d6c986c50248c3649aefe8daab812d6351c8752a74b72cf2696193e2a",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "6d11aa2b76a4b9e60ec22bad2c8b67c1577a61180fae4f0630757151ccb9aeaf",
+      "previous_hash": "00a497922c33df63b17357b0e27ab2ce9aedae34bcab7a889640e2c7865667e8",
+      "nonce": 840,
+      "difficulty": 2,
+      "hash": "004af7536aabc01d786ec8249d02ba5d57737734276386bf6d74ed569f97d684",
+      "signature": "d054529d230d1764026a1fb476bf36aab86c7f698cebcfa41bf272f0fb643d9320d4f3db025c853bd8744f7d68e7f29fb76b58807a3147174a143884e94132a3"
+    },
+    {
+      "index": 29,
+      "timestamp": "2026-10-27T20:56:48Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "4d3c9ac78d18912980c9e3b05b244073d95ccb18b757f8dfa61adf70d7c1bde7",
+          "record_id": "0ee5ebf5da7541fa",
+          "post_url": "https://media.cheggcdn.com/media%2F3ff%2F3ff30b97-eb97-47ea-8314-307040c3623f%2FphpLOvaWL.png",
+          "author": "media.cheggcdn.com",
+          "title": "Similar image on media.cheggcdn.com",
+          "content_snippet": "Visually similar image found at media.cheggcdn.com.",
+          "source_platform": "Web",
+          "image_hash_sha256": "8a1df821dc2b8ff37c15ead54343a61b7c4ddcf488f41a5e3b2df3b111508800",
+          "phash": "a8949e8296f6fa00",
+          "face_embedding_digest": "465ff3892f5d6a252bc773c59978401ac696dec27fc9ae49da86532f941afa3b",
+          "timestamp": "2026-10-27T20:56:48Z",
+          "merkle_leaf_hash": "fb713cd2e45a23ce49c11a475fe9b20a46ce13a0917b8e180b9454cc1d592bfa",
+          "signature": "6117476a81fb9ec23d5f270e31d775e021a3768ca777e9fa8cede2093f35b267e084b133abd94940ca8cfa378163a2c107dd0b1be08d3f6eb4b94c86a45408aa",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "4d3c9ac78d18912980c9e3b05b244073d95ccb18b757f8dfa61adf70d7c1bde7",
+      "previous_hash": "004af7536aabc01d786ec8249d02ba5d57737734276386bf6d74ed569f97d684",
+      "nonce": 18,
+      "difficulty": 2,
+      "hash": "008d1fd7e4d2416cda0f26aeb35ecff4bcada89391c4699558ff742eeac5400f",
+      "signature": "90e5d227161637f4b532d1302ec09b48b5d4a3dbdc518bfdbe2616df4bcfff6541c8a7a849e4a96f0c0d8c836df1eeeba5f3ad351ff2e7a13735192c362bae34"
+    },
+    {
+      "index": 30,
+      "timestamp": "2026-10-27T20:57:48Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "7c3bbadee9d7c9b53dd6bdca530a183a4d007c18b521533dff23058db794ba73",
+          "record_id": "0bb824553242701b",
+          "post_url": "https://image3.mouthshut.com/images/imagesp/925944109s.jpg",
+          "author": "image3.mouthshut.com",
+          "title": "Similar image on image3.mouthshut.com",
+          "content_snippet": "Visually similar image found at image3.mouthshut.com.",
+          "source_platform": "Web",
+          "image_hash_sha256": "7e6c35bc4bf050bb10cdbdf9dfeeae929e905eec34f1c0b2c88f017f45957ab7",
+          "phash": "303838383878f8da",
+          "face_embedding_digest": "8ac54617c89cd09a486a6681da8cbd173cc9866b3b799204a6d57cb20047f807",
+          "timestamp": "2026-10-27T20:57:48Z",
+          "merkle_leaf_hash": "4b11314400f803e138b8622c7c1afafba0865be949c0d9586d77563f88842443",
+          "signature": "e8cae1459eaf509e31bded2d3f4d4cb42847e8b7d05a1e0fb2c67cbbf9bd031be7f1b8d5cf96af3ec76d4c9c23c2ec210f0ae3dc6e1d67137105ab2e052e9e6b",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "7c3bbadee9d7c9b53dd6bdca530a183a4d007c18b521533dff23058db794ba73",
+      "previous_hash": "008d1fd7e4d2416cda0f26aeb35ecff4bcada89391c4699558ff742eeac5400f",
+      "nonce": 696,
+      "difficulty": 2,
+      "hash": "006bda10b07aed843c0cfe0b889c38c5024aba21cc413ccdc679ce4c55e9d83d",
+      "signature": "fa11116b2df450e0638b0a124d67006404c036c1204c86e11cf7fa55e292e4dadc14195e3ab008cd902708aedbcfa5fdda6846a4c6a956d7dd23415638c8a889"
+    },
+    {
+      "index": 31,
+      "timestamp": "2026-10-27T20:58:22Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "d8adc3a6043c996549b8d69d3bcb8b13094fc353325c88772bb6dc672fdb186d",
+          "record_id": "b4a0d4b77914307b",
+          "post_url": "https://cdn.pbilet.com/origin/de15cc69-5512-49fa-9c91-726652479890.jpeg",
+          "author": "cdn.pbilet.com",
+          "title": "Similar image on cdn.pbilet.com",
+          "content_snippet": "Visually similar image found at cdn.pbilet.com.",
+          "source_platform": "Web",
+          "image_hash_sha256": "7e32def411ad4200dfbeaa7ca9c33c966b999291853de34525e4d468e7e40743",
+          "phash": "98b0ece0f0e0b09a",
+          "face_embedding_digest": "c27fd3048c3a3ac05cfda750ffd8221e16895d5bafecc0b256cfc2045b9ee36b",
+          "timestamp": "2026-10-27T20:58:22Z",
+          "merkle_leaf_hash": "8a73904d018b3bdc83e058d4af3b59833ac56d8ca82553eaa4fc3681a1267ef8",
+          "signature": "51bbfcb7a811799dbdefc47d3a934b707e6c2527c4cbcacb3962b8c72ce7d8b81c0888d8854c2c9b9b1b308ed10fd59cb260bc268032de62fd0d9dc3d083754d",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "d8adc3a6043c996549b8d69d3bcb8b13094fc353325c88772bb6dc672fdb186d",
+      "previous_hash": "006bda10b07aed843c0cfe0b889c38c5024aba21cc413ccdc679ce4c55e9d83d",
+      "nonce": 73,
+      "difficulty": 2,
+      "hash": "00d470d53eb6700a1591ba34553e7eeea44781c92492191519f0f0b11903e871",
+      "signature": "e3b968822c6f7d32e31a90360a6dfd79345e5f089eea8f6361b98b3136a37fc867579325ca4b44d65a17e7152e46363c302924906d06fc636c21b4aab6f3853c"
+    },
+    {
+      "index": 32,
+      "timestamp": "2026-10-27T20:58:58Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "6b91a198342ea9143d727689b9248f08f6cbbcd674bffd1d03570b5a58a3e5d3",
+          "record_id": "c4618be36ca4f1af",
+          "post_url": "https://basket-41.wbbasket.ru/vol9993/part999347/999347088/images/big/1.webp",
+          "author": "basket-41.wbbasket.ru",
+          "title": "Similar image on basket-41.wbbasket.ru",
+          "content_snippet": "Visually similar image found at basket-41.wbbasket.ru.",
+          "source_platform": "Web",
+          "image_hash_sha256": "f832bff6ca88b5bf01af68bd632e7dff48d5e429feea7c35bfbaf27220c9d974",
+          "phash": "00e8cce8d0f07000",
+          "face_embedding_digest": "8f3c29db734111f4f058577c382a3ee57d2580ca933df6de0741da10964714b8",
+          "timestamp": "2026-10-27T20:58:58Z",
+          "merkle_leaf_hash": "c941401efffd2b841ba616a0fe673a973bea985cf123c4c1f73d5b436d184517",
+          "signature": "de334c95f08737bc10a374543fa77d4887d4c9480f4a8d3cf885e80914dc36ac547d19c2811cbbd67e551d707afbf618d69c02782e9823f5c799576728a56c42",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "6b91a198342ea9143d727689b9248f08f6cbbcd674bffd1d03570b5a58a3e5d3",
+      "previous_hash": "00d470d53eb6700a1591ba34553e7eeea44781c92492191519f0f0b11903e871",
+      "nonce": 485,
+      "difficulty": 2,
+      "hash": "0071d291895c393cfd29da6686751165d868436ac4fbb274a8351f3127e56077",
+      "signature": "e599732ad7f2631dd84863e69ea71495de7b2fae480e3020b2cddcd9b84ec6e95342fb3002e3eb81bb259c8d806b003c301364fd928a3ebe113bd7823d4b1583"
+    },
+    {
+      "index": 33,
+      "timestamp": "2026-10-27T20:59:46Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "893923ec9fe200a9e37d7834242569f4fef53e577e181ae9e8ac29fdc2d94af4",
+          "record_id": "0bb824553242701b",
+          "post_url": "https://image3.mouthshut.com/images/imagesp/925944109s.jpg",
+          "author": "image3.mouthshut.com",
+          "title": "Similar image on image3.mouthshut.com",
+          "content_snippet": "Visually similar image found at image3.mouthshut.com.",
+          "source_platform": "Web",
+          "image_hash_sha256": "7e6c35bc4bf050bb10cdbdf9dfeeae929e905eec34f1c0b2c88f017f45957ab7",
+          "phash": "303838383878f8da",
+          "face_embedding_digest": "8ac54617c89cd09a486a6681da8cbd173cc9866b3b799204a6d57cb20047f807",
+          "timestamp": "2026-10-27T20:59:46Z",
+          "merkle_leaf_hash": "24c617c8e3d291379dc41de63576768bb9999d43a8bd10305d6d9cb65d97db41",
+          "signature": "b11fe32abc96480e203616f5f8da9f33851fe3db432945e8d8aa1ffd3eda97b04ebb5c98c327f9415fa446873fa75c5e6c606f043571505517a7f184eada2238",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "893923ec9fe200a9e37d7834242569f4fef53e577e181ae9e8ac29fdc2d94af4",
+      "previous_hash": "0071d291895c393cfd29da6686751165d868436ac4fbb274a8351f3127e56077",
+      "nonce": 31,
+      "difficulty": 2,
+      "hash": "00597e1df49b9a43f5601a896439e2231fcff0c8b6c209618978be497100dd0b",
+      "signature": "763f43a718bec2228cc92a7990f4ca20b5b4537920f0f0907dbb12dbbf78e314031d6218d8af31b3a4a1d527c8e08b293dd7d761b768ffb76a5349bf43f61f65"
+    },
+    {
+      "index": 34,
+      "timestamp": "2026-10-27T21:00:14Z",
+      "transactions_count": 1,
+      "transactions": [
+        {
+          "tx_id": "02318512ca840a59cd3e29cbc07166465e9b65b15920f39ee51ea0477fb1121c",
+          "record_id": "b4a0d4b77914307b",
+          "post_url": "https://cdn.pbilet.com/origin/de15cc69-5512-49fa-9c91-726652479890.jpeg",
+          "author": "cdn.pbilet.com",
+          "title": "Similar image on cdn.pbilet.com",
+          "content_snippet": "Visually similar image found at cdn.pbilet.com.",
+          "source_platform": "Web",
+          "image_hash_sha256": "7e32def411ad4200dfbeaa7ca9c33c966b999291853de34525e4d468e7e40743",
+          "phash": "98b0ece0f0e0b09a",
+          "face_embedding_digest": "c27fd3048c3a3ac05cfda750ffd8221e16895d5bafecc0b256cfc2045b9ee36b",
+          "timestamp": "2026-10-27T21:00:14Z",
+          "merkle_leaf_hash": "3e6f34226d2106683afa20fd0dd1b2cf3535bd029c7c43e676440cc56a0f69e2",
+          "signature": "08340751655104d965ac5c62c5c67d5dd475765e2ce414f3ad1012ac611f1a78afe442f050230a3b4cf28fb26e7448e1e00d893613a1c51bdbc568b6f70d2a7a",
+          "validator_public_key": "2b151b15d57b848f4964d29be72800e740ab9a6c41f009a9e6e4e37bac29a34255cbea8d459104b84fdbd584792a6b767eb69e5eac2cacc427418a9de3b7a9fa"
+        }
+      ],
+      "merkle_root": "02318512ca840a59cd3e29cbc07166465e9b65b15920f39ee51ea0477fb1121c",
+      "previous_hash": "00597e1df49b9a43f5601a896439e2231fcff0c8b6c209618978be497100dd0b",
+      "nonce": 163,
+      "difficulty": 2,
+      "hash": "001e0db33c846a70153068e94e48075753d09228f9322f33f951d38c758c27ff",
+      "signature": "ae7c77745cd31e6161fcfa6e1ab4f754031d0b5aa16e39011da07c3a70784eaa4ec888b84fb39fa4abacd6bffb5796c353e13586858e493174738bb744ab621b"
     }
   ]
 }

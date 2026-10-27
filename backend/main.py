@@ -8,6 +8,20 @@ import io
 import os
 import base64
 from typing import Dict, List, Any, Optional
+import starlette.routing
+import starlette.applications
+
+# Starlette 1.x compatibility shim for FastAPI 0.110.x
+if not hasattr(starlette.applications.Starlette, "max_body_size"):
+    starlette.applications.Starlette.max_body_size = None
+
+_orig_router_init = starlette.routing.Router.__init__
+def _compat_router_init(self, *args, on_startup=None, on_shutdown=None, **kwargs):
+    _orig_router_init(self, *args, **kwargs)
+    self.on_startup = list(on_startup or [])
+    self.on_shutdown = list(on_shutdown or [])
+starlette.routing.Router.__init__ = _compat_router_init
+
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles

@@ -4,45 +4,78 @@
 
 @layer base {
   body {
-    background-color: #080b11;
-    color: #e2e8f0;
-    font-family: 'Inter', sans-serif;
+    background-color: #090A0F;
+    color: #F4F4F6;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
   }
 }
 
 /* Custom scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0d121f;
+  background: #090A0F;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 4px;
+  background: #1a2421;
+  border: 1px solid rgba(0, 255, 156, 0.25);
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #00FF9C;
 }
 
-/* Glow effects */
-.glow-cyan {
-  box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.3);
+/* Cyber-Occult Glow effects */
+.glow-phosphor {
+  box-shadow: 0 0 28px -6px rgba(0, 255, 156, 0.28);
 }
 
-.glow-emerald {
-  box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.3);
+.glow-crimson {
+  box-shadow: 0 0 28px -6px rgba(255, 77, 77, 0.32);
 }
 
-.glow-rose {
-  box-shadow: 0 0 25px -5px rgba(244, 63, 94, 0.3);
+.text-glow-phosphor {
+  text-shadow: 0 0 12px rgba(0, 255, 156, 0.45);
 }
 
-/* Grid background */
-.bg-grid-pattern {
-  background-size: 30px 30px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+.text-glow-crimson {
+  text-shadow: 0 0 12px rgba(255, 77, 77, 0.45);
+}
+
+/* Haunted CRT Grid & Scanline Pattern */
+.bg-haunted-grid {
+  background-color: #090A0F;
+  background-size: 32px 32px;
+  background-image:
+    linear-gradient(to right, rgba(0, 255, 156, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 255, 156, 0.035) 1px, transparent 1px);
+}
+
+.crt-scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.22) 50%
+  );
+  background-size: 100% 4px;
+}
+
+@keyframes pulse-radar {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.02);
+  }
+}
+
+.animate-radar {
+  animation: pulse-radar 3s ease-in-out infinite;
 }
