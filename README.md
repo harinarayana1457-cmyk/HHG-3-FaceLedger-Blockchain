@@ -1,6 +1,6 @@
 <div align="center">
 
-# 👻 PHANTOMLEDGER (`HHG-3`)
+# 👻 PHANTOMLEDGER
 ### Hunting Digital Doppelgängers in the Machine — 100% Open-Source Local Biometric Séance & Merkle Blockchain Pipeline
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-00FF9C?style=for-the-badge&logo=github&logoColor=black)](https://harinarayana1457-cmyk.github.io/HHG-3/)
