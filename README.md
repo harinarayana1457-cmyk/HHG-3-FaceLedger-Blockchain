@@ -61,6 +61,8 @@
 
 ## 🏛️ System Architecture
 
+The following diagram illustrates the end-to-end evidence pipeline—from image ingestion and biometric feature extraction through reverse search discovery, blockchain anchoring, and tamper-evident verification:
+
 ```mermaid
 flowchart TD
     subgraph LocalCapture ["Step 1: Local Biometric Ingestion (0 Cloud Bytes)"]
