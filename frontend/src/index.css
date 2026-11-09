@@ -3,79 +3,64 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    background-color: #090A0F;
-    color: #F4F4F6;
-    font-family: 'Inter', system-ui, sans-serif;
+  html {
+    color-scheme: dark;
   }
-
-  code, pre, .font-mono {
-    font-family: 'JetBrains Mono', monospace;
+  body {
+    background-color: #09090b;
+    color: #f4f4f5;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: 'cv11', 'ss01', 'ss03';
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: rgba(129, 140, 248, 0.35);
+    color: #fff;
   }
 }
 
 /* Custom scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #090A0F;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1a2421;
-  border: 1px solid rgba(0, 255, 156, 0.25);
-  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 3px solid #09090b;
+  border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #00FF9C;
+  background: rgba(255, 255, 255, 0.16);
 }
 
-/* Cyber-Occult Glow effects */
-.glow-phosphor {
-  box-shadow: 0 0 28px -6px rgba(0, 255, 156, 0.28);
-}
-
-.glow-crimson {
-  box-shadow: 0 0 28px -6px rgba(255, 77, 77, 0.32);
-}
-
-.text-glow-phosphor {
-  text-shadow: 0 0 12px rgba(0, 255, 156, 0.45);
-}
-
-.text-glow-crimson {
-  text-shadow: 0 0 12px rgba(255, 77, 77, 0.45);
-}
-
-/* Haunted CRT Grid & Scanline Pattern */
-.bg-haunted-grid {
-  background-color: #090A0F;
-  background-size: 32px 32px;
+/* Subtle fading grid behind the hero */
+.bg-grid-fade {
+  background-size: 48px 48px;
   background-image:
-    linear-gradient(to right, rgba(0, 255, 156, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 255, 156, 0.035) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse 70% 50% at 50% 0%, #000 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 0%, #000 40%, transparent 100%);
 }
 
-.crt-scanlines {
-  background: linear-gradient(
-    rgba(18, 16, 16, 0) 50%,
-    rgba(0, 0, 0, 0.22) 50%
-  );
-  background-size: 100% 4px;
+/* Scanning sweep over the uploaded image */
+.scan-line {
+  background: linear-gradient(to bottom, transparent, rgba(129, 140, 248, 0.18), transparent);
+  border-bottom: 1px solid rgba(165, 180, 252, 0.5);
+  animation: scan 1.8s ease-in-out infinite;
+}
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(400%); }
 }
 
-@keyframes pulse-radar {
-  0%, 100% {
-    opacity: 0.4;
-    transform: scale(0.98);
-  }
-  50% {
-    opacity: 0.9;
-    transform: scale(1.02);
-  }
+.fade-in {
+  animation: fadeIn 0.35s ease-out both;
 }
-
-.animate-radar {
-  animation: pulse-radar 3s ease-in-out infinite;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }

@@ -1,23 +1,136 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
-  OPEN_WEIGHT_MODELS,
-  SYSTEM_PROMPT_PRESETS,
-  checkOllamaStatus,
-  runSeanceAnalysis,
-  computeVectorForensics,
-  generateShellWhisper,
-} from './ai/phantomAgent';
+  ShieldCheck,
+  UploadCloud,
+  ScanFace,
+  Globe,
+  Blocks,
+  BadgeCheck,
+  RotateCcw,
+  ExternalLink,
+  Copy,
+  Check,
+  AlertTriangle,
+  Loader2,
+  ShieldAlert,
+  Fingerprint,
+  Hash,
+  Layers,
+  KeyRound,
+  ImageOff,
+  ArrowUpRight,
+} from 'lucide-react';
+
+/* ------------------------------------------------------------------ */
+/* Small presentational helpers                                        */
+/* ------------------------------------------------------------------ */
+
+const truncateMiddle = (str, head = 10, tail = 8) => {
+  if (!str) return '—';
+  if (str.length <= head + tail + 3) return str;
+  return `${str.slice(0, head)}…${str.slice(-tail)}`;
+};
+
+function CopyButton({ value }) {
+  const [copied, setCopied] = useState(false);
+  if (!value) return null;
+  const onCopy = async (e) => {
+    e.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1400);
+    } catch {
+      /* clipboard unavailable */
+    }
+  };
+  return (
+    <button
+      onClick={onCopy}
+      title="Copy"
+      className="shrink-0 rounded-md p-1.5 text-zinc-500 transition hover:bg-white/5 hover:text-zinc-200"
+    >
+      {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+    </button>
+  );
+}
+
+function SectionLabel({ children, right }) {
+  return (
+    <div className="mb-3 flex items-center justify-between">
+      <h2 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-500">{children}</h2>
+      {right}
+    </div>
+  );
+}
+
+function Card({ className = '', children }) {
+  return (
+    <div
+      className={`relative rounded-2xl border border-white/[0.06] bg-zinc-900/40 shadow-[0_1px_0_0_rgba(255,255,255,0.03)_inset,0_20px_40px_-24px_rgba(0,0,0,0.8)] backdrop-blur-sm ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
+
+function MetaItem({ icon: Icon, label, value, mono = true, copy }) {
+  return (
+    <div className="flex min-w-0 items-center gap-3 rounded-xl border border-white/[0.05] bg-black/20 px-3.5 py-3">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/[0.04] text-zinc-400">
+        <Icon className="h-4 w-4" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="text-[10.5px] font-medium uppercase tracking-wider text-zinc-500">{label}</p>
+        <p className={`truncate text-[13px] text-zinc-200 ${mono ? 'font-mono' : 'font-medium'}`} title={copy || undefined}>
+          {value}
+        </p>
+      </div>
+      {copy && <CopyButton value={copy} />}
+    </div>
+  );
+}
+
+function Step({ index, label, icon: Icon, state }) {
+  const styles = {
+    done: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400',
+    active: 'border-indigo-400/40 bg-indigo-500/10 text-indigo-300',
+    pending: 'border-white/[0.06] bg-white/[0.02] text-zinc-500',
+  }[state];
+  return (
+    <div className="flex items-center gap-3">
+      <div className={`flex h-9 w-9 items-center justify-center rounded-full border transition-all duration-300 ${styles}`}>
+        {state === 'done' ? (
+          <Check className="h-4 w-4" strokeWidth={2.5} />
+        ) : state === 'active' ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : (
+          <Icon className="h-4 w-4" />
+        )}
+      </div>
+      <div className="hidden sm:block">
+        <p className="text-[10px] font-medium uppercase tracking-wider text-zinc-600">Step {index}</p>
+        <p className={`text-[13px] font-medium ${state === 'pending' ? 'text-zinc-500' : 'text-zinc-200'}`}>{label}</p>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Main App                                                            */
+/* ------------------------------------------------------------------ */
 
 export default function App() {
   const [inputImage, setInputImage] = useState(null);
-  const [scanData, setScanData] = useState(null);
   const [results, setResults] = useState([]);
-  const [selectedMatch, setSelectedMatch] = useState(null);
   const [primaryFace, setPrimaryFace] = useState(null);
   const [phash, setPhash] = useState(null);
+  const [imageMeta, setImageMeta] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [stage, setStage] = useState(null); // 'detect' | 'search'
   const [error, setError] = useState(null);
-  const [sampleFaces, setSampleFaces] = useState([]);
+  const [dragOver, setDragOver] = useState(false);
+  const [selectedIdx, setSelectedIdx] = useState(0);
 
   // Blockchain state
   const [anchoring, setAnchoring] = useState(false);
@@ -26,29 +139,21 @@ export default function App() {
   const [verificationResult, setVerificationResult] = useState(null);
   const [tampering, setTampering] = useState(false);
   const [tamperResult, setTamperResult] = useState(null);
-
-  // Local AI Séance state
-  const [selectedModel, setSelectedModel] = useState(OPEN_WEIGHT_MODELS[0].id);
-  const [personaKey, setPersonaKey] = useState('possessor');
-  const [systemPrompt, setSystemPrompt] = useState(SYSTEM_PROMPT_PRESETS.possessor.prompt);
-  const [showPromptEditor, setShowPromptEditor] = useState(false);
-  const [activeReportTab, setActiveReportTab] = useState('spooky'); // 'spooky' | 'forensic'
-  const [seanceReport, setSeanceReport] = useState(null);
-  const [seanceLoading, setSeanceLoading] = useState(false);
-  const [ollamaOnline, setOllamaOnline] = useState(false);
-  const [statusWhisper, setStatusWhisper] = useState('Ready — 100% local biometric processing (0 bytes uploaded to cloud).');
+  const [health, setHealth] = useState(null);
 
   const fileInputRef = useRef(null);
 
-  useEffect(() => {
-    fetch('/api/sample-faces')
-      .then((r) => r.json())
-      .then((d) => {
-        if (d?.samples) setSampleFaces(d.samples);
-      })
-      .catch(() => {});
+  const refreshHealth = async () => {
+    try {
+      const res = await fetch('/api/health');
+      if (res.ok) setHealth(await res.json());
+    } catch {
+      setHealth(null);
+    }
+  };
 
-    checkOllamaStatus().then((st) => setOllamaOnline(Boolean(st?.online)));
+  useEffect(() => {
+    refreshHealth();
   }, []);
 
   const handleFile = (file) => {
@@ -61,53 +166,18 @@ export default function App() {
     reader.readAsDataURL(file);
   };
 
-  const handleSelectSample = (sample) => {
-    const b64 = sample.image_base64 || sample.image_url;
-    if (!b64) return;
-    setInputImage(b64);
-    runPipeline(b64);
-  };
-
-  const triggerSeance = async (
-    currentScan,
-    currentMatch,
-    currentProof,
-    overridePrompt = systemPrompt,
-    overridePersona = personaKey,
-    overrideModel = selectedModel
-  ) => {
-    if (!currentScan || !currentMatch) return;
-    setSeanceLoading(true);
-    try {
-      const report = await runSeanceAnalysis({
-        model: overrideModel,
-        systemPrompt: overridePrompt,
-        personaKey: overridePersona,
-        scanData: currentScan,
-        match: currentMatch,
-        blockchainProof: currentProof,
-      });
-      setSeanceReport(report);
-    } catch (e) {
-      console.error('Séance error:', e);
-    } finally {
-      setSeanceLoading(false);
-    }
-  };
-
   const runPipeline = async (b64) => {
     setLoading(true);
+    setStage('detect');
     setError(null);
     setResults([]);
-    setSelectedMatch(null);
-    setScanData(null);
+    setSelectedIdx(0);
     setPrimaryFace(null);
     setPhash(null);
+    setImageMeta(null);
     setBlockchainProof(null);
     setVerificationResult(null);
     setTamperResult(null);
-    setSeanceReport(null);
-    setStatusWhisper(generateShellWhisper('IMAGE_LOADED'));
 
     try {
       // Step 1: Face Detection
@@ -117,15 +187,19 @@ export default function App() {
       const detectData = await detectRes.json();
       if (!detectRes.ok || !detectData.success) throw new Error(detectData.detail || 'Face detection failed.');
 
-      const fullScan = detectData.data;
-      const face = fullScan.primary_face;
-      const detectedPhash = fullScan.phash;
-      setScanData(fullScan);
+      const face = detectData.data.primary_face;
+      const detectedPhash = detectData.data.phash;
       setPrimaryFace(face);
       setPhash(detectedPhash);
-      setStatusWhisper(generateShellWhisper('VECTOR_EXTRACTED', { sha256: fullScan.sha256, phash: detectedPhash }));
+      setImageMeta({
+        sha256: detectData.data.sha256,
+        face_count: detectData.data.face_count,
+        width: detectData.data.image_width,
+        height: detectData.data.image_height,
+      });
 
-      // Step 2: Reverse Image & OSINT Search
+      // Step 2: Real Reverse Image Search (Yandex CBIR)
+      setStage('search');
       const searchRes = await fetch('/api/search/web', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -141,34 +215,23 @@ export default function App() {
       const matches = searchData.matches || [];
       if (matches.length === 0) throw new Error('No matching images found on the web.');
       setResults(matches);
-      setSelectedMatch(matches[0]);
 
-      setStatusWhisper(
-        generateShellWhisper('PHANTOM_DETECTED', {
-          platform: matches[0].platform,
-          author: matches[0].author,
-          cosine: matches[0].cosine_similarity || matches[0].confidence_score,
-          euclidean: matches[0].euclidean_distance,
-          time: matches[0].sighting_time_utc,
-        })
-      );
-
-      // Step 3: Auto-anchor top match to Blockchain
+      // Auto-anchor top match to Blockchain
       if (matches[0]) {
-        await anchorToBlockchain(matches[0], face, detectedPhash, fullScan);
+        anchorToBlockchain(matches[0], face, detectedPhash);
       }
     } catch (err) {
       setError(err.message || 'Something went wrong.');
     } finally {
       setLoading(false);
+      setStage(null);
     }
   };
 
-  const anchorToBlockchain = async (match, face, detectedPhash, fullScanOverride) => {
+  const anchorToBlockchain = async (match, face, detectedPhash) => {
     setAnchoring(true);
     setVerificationResult(null);
     setTamperResult(null);
-    const activeScan = fullScanOverride || scanData;
 
     try {
       const anchorRes = await fetch('/api/blockchain/anchor', {
@@ -180,11 +243,9 @@ export default function App() {
           author: match.author || '@web_source',
           title: match.title || 'Discovered Media Match',
           content_snippet: match.content_snippet || '',
-          image_hash_sha256: activeScan?.sha256 || match.id || 'hash_' + Date.now(),
+          image_hash_sha256: match.id || 'hash_' + Date.now(),
           phash: detectedPhash || '0000000000000000',
-          face_embedding_digest:
-            face?.embedding_digest ||
-            (face?.embedding ? face.embedding.slice(0, 8).join(',') : '0,0,0,0'),
+          face_embedding_digest: face?.embedding ? face.embedding.slice(0, 8).join(',') : '0,0,0,0',
           source_platform: match.platform || 'Web',
         }),
       });
@@ -194,37 +255,38 @@ export default function App() {
       const receipt = anchorData.receipt || anchorData.proof || {};
 
       const proofObj = {
-        record_id: receipt.record_id || match.id,
         block_number: receipt.block_number ?? 1,
         block_hash: receipt.block_hash || '0000000000000000',
         merkle_root: receipt.merkle_root || '0000000000000000',
         tx_id: receipt.tx_id || '',
-        image_hash_sha256: activeScan?.sha256 || match.id,
-        face_embedding_digest:
-          face?.embedding_digest ||
-          (face?.embedding ? face.embedding.slice(0, 8).join(',') : '0,0,0,0'),
-        match,
-        face,
+        match: match,
+        face: face,
         phash: detectedPhash,
       };
 
       setBlockchainProof(proofObj);
-      setStatusWhisper(
-        generateShellWhisper('BLOCK_MINED', {
-          blockNumber: proofObj.block_number,
-          merkleRoot: proofObj.merkle_root,
-        })
-      );
+      refreshHealth();
 
-      triggerSeance(activeScan, match, proofObj);
+      // Auto verify right after anchoring
       autoVerify(proofObj);
     } catch (err) {
       console.error('Blockchain anchoring error:', err);
-      triggerSeance(activeScan, match, null);
     } finally {
       setAnchoring(false);
     }
   };
+
+  const buildVerifyBody = (proof) => ({
+    candidate_record_id: proof.match.id,
+    candidate_tx_id: proof.tx_id,
+    candidate_post_url: proof.match.post_url,
+    candidate_author: proof.match.author || '@web_source',
+    candidate_title: proof.match.title || 'Discovered Media Match',
+    candidate_content_snippet: proof.match.content_snippet || '',
+    candidate_image_hash: proof.match.id,
+    candidate_phash: proof.phash,
+    candidate_face_digest: proof.face?.embedding ? proof.face.embedding.slice(0, 8).join(',') : '0,0,0,0',
+  });
 
   const autoVerify = async (proof) => {
     if (!proof) return;
@@ -232,17 +294,7 @@ export default function App() {
       const verifyRes = await fetch('/api/blockchain/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          candidate_record_id: proof.record_id,
-          candidate_tx_id: proof.tx_id,
-          candidate_post_url: proof.match.post_url,
-          candidate_author: proof.match.author || '@web_source',
-          candidate_title: proof.match.title || 'Discovered Media Match',
-          candidate_content_snippet: proof.match.content_snippet || '',
-          candidate_image_hash: proof.image_hash_sha256,
-          candidate_phash: proof.phash,
-          candidate_face_digest: proof.face_embedding_digest,
-        }),
+        body: JSON.stringify(buildVerifyBody(proof)),
       });
       const verifyData = await verifyRes.json();
       setVerificationResult(verifyData);
@@ -254,23 +306,13 @@ export default function App() {
   const handleReVerify = async () => {
     if (!blockchainProof) return;
     setVerifying(true);
-    setTamperResult(null);
+    setTamperResult(null); // Clear red tamper result when re-verifying authentic data!
 
     try {
       const verifyRes = await fetch('/api/blockchain/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          candidate_record_id: blockchainProof.record_id,
-          candidate_tx_id: blockchainProof.tx_id,
-          candidate_post_url: blockchainProof.match.post_url,
-          candidate_author: blockchainProof.match.author || '@web_source',
-          candidate_title: blockchainProof.match.title || 'Discovered Media Match',
-          candidate_content_snippet: blockchainProof.match.content_snippet || '',
-          candidate_image_hash: blockchainProof.image_hash_sha256,
-          candidate_phash: blockchainProof.phash,
-          candidate_face_digest: blockchainProof.face_embedding_digest,
-        }),
+        body: JSON.stringify(buildVerifyBody(blockchainProof)),
       });
       const verifyData = await verifyRes.json();
       setVerificationResult(verifyData);
@@ -284,7 +326,7 @@ export default function App() {
   const handleTestTamper = async () => {
     if (!blockchainProof) return;
     setTampering(true);
-    setVerificationResult(null);
+    setVerificationResult(null); // Clear green authentic result when testing tamper!
 
     try {
       const tamperRes = await fetch('/api/blockchain/tamper-demo', {
@@ -305,912 +347,508 @@ export default function App() {
     }
   };
 
-  const handleModelChange = (newModel) => {
-    setSelectedModel(newModel);
-    if (scanData && (selectedMatch || results[0])) {
-      triggerSeance(scanData, selectedMatch || results[0], blockchainProof, systemPrompt, personaKey, newModel);
-    }
-  };
-
   const reset = () => {
     setInputImage(null);
-    setScanData(null);
     setResults([]);
-    setSelectedMatch(null);
+    setSelectedIdx(0);
     setPrimaryFace(null);
     setPhash(null);
+    setImageMeta(null);
     setBlockchainProof(null);
     setVerificationResult(null);
     setTamperResult(null);
-    setSeanceReport(null);
     setError(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
-  const topResult = selectedMatch || results[0];
-
-  const vectorMetrics = useMemo(
-    () =>
-      computeVectorForensics(
-        scanData?.primary_face?.embedding || [],
-        topResult?.phantom_embedding || []
-      ),
-    [scanData, topResult]
-  );
-
   const platformColor = (platform) => {
     const map = {
       'Twitter/X': '#1da1f2',
-      Instagram: '#e1306c',
-      Pinterest: '#e60023',
-      YouTube: '#ff0000',
-      TikTok: '#69c9d0',
-      Reddit: '#ff4500',
-      Facebook: '#1877f2',
-      'Official Website': '#10b981',
+      'Instagram': '#e1306c',
+      'Pinterest': '#e60023',
+      'YouTube': '#ff0000',
+      'TikTok': '#69c9d0',
+      'Reddit': '#ff4500',
+      'Facebook': '#1877f2',
+      'Official Website': '#22c55e',
       'News / Media': '#f59e0b',
-      Wikipedia: '#3b82f6',
-      Web: '#64748b',
+      'Wikipedia': '#3b82f6',
+      'Web': '#a1a1aa',
     };
-    return map[platform] || '#64748b';
+    return map[platform] || '#a1a1aa';
   };
 
+  const topResult = results[selectedIdx] || results[0];
+
+  // Stepper state
+  const stepState = (key) => {
+    switch (key) {
+      case 'detect':
+        return primaryFace ? 'done' : stage === 'detect' ? 'active' : 'pending';
+      case 'search':
+        return results.length ? 'done' : stage === 'search' ? 'active' : 'pending';
+      case 'anchor':
+        return blockchainProof ? 'done' : anchoring ? 'active' : 'pending';
+      case 'verify':
+        return verificationResult ? 'done' : blockchainProof && !tamperResult ? 'active' : 'pending';
+      default:
+        return 'pending';
+    }
+  };
+
+  const faceConfidence =
+    primaryFace?.confidence != null
+      ? `${(primaryFace.confidence <= 1 ? primaryFace.confidence * 100 : primaryFace.confidence).toFixed(1)}%`
+      : '—';
+
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: '#090A0F',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '32px 20px 64px',
-        fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
-        color: '#F4F4F6',
-      }}
-    >
-      {/* Minimal Sovereignty Bar */}
-      <div
-        style={{
-          width: '100%',
-          maxWidth: 880,
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 12,
-          padding: '10px 16px',
-          background: '#11131A',
-          border: '1px solid #1E2230',
-          borderRadius: 14,
-          marginBottom: 28,
-          fontSize: 12,
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span
-            style={{
-              width: 8,
-              height: 8,
-              borderRadius: '50%',
-              background: '#00FF9C',
-              boxShadow: '0 0 8px #00FF9C',
-            }}
-          />
-          <span style={{ fontWeight: 700, color: '#fff', letterSpacing: 0.3 }}>PhantomLedger</span>
-          <span style={{ color: '#64748B' }}>|</span>
-          <span className="font-mono" style={{ fontSize: 11, color: '#00FF9C' }}>
-            Local 128-D Biometrics · 0 B Cloud Leak
-          </span>
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ color: '#94A3B8', fontSize: 11 }}>
-            {ollamaOnline ? 'Ollama Live:' : 'Local Model:'}
-          </span>
-          <select
-            value={selectedModel}
-            onChange={(e) => handleModelChange(e.target.value)}
-            className="font-mono"
-            style={{
-              background: '#090A0F',
-              color: '#E2E8F0',
-              border: '1px solid #262B3D',
-              borderRadius: 8,
-              padding: '4px 8px',
-              fontSize: 11,
-              outline: 'none',
-              cursor: 'pointer',
-            }}
-          >
-            {OPEN_WEIGHT_MODELS.map((m) => (
-              <option key={m.id} value={m.id}>
-                {m.name}
-              </option>
-            ))}
-          </select>
-
-          <button
-            onClick={() => setShowPromptEditor((p) => !p)}
-            style={{
-              background: showPromptEditor ? 'rgba(0, 255, 156, 0.12)' : '#090A0F',
-              color: showPromptEditor ? '#00FF9C' : '#94A3B8',
-              border: `1px solid ${showPromptEditor ? 'rgba(0, 255, 156, 0.4)' : '#262B3D'}`,
-              borderRadius: 8,
-              padding: '4px 10px',
-              fontSize: 11,
-              cursor: 'pointer',
-            }}
-          >
-            Prompt
-          </button>
-        </div>
+    <div className="relative min-h-screen overflow-x-hidden bg-[#09090b] font-sans text-zinc-100 antialiased">
+      {/* Ambient background */}
+      <div className="pointer-events-none fixed inset-0 -z-0">
+        <div className="absolute left-1/2 top-[-18rem] h-[36rem] w-[60rem] -translate-x-1/2 rounded-full bg-indigo-600/[0.12] blur-[120px]" />
+        <div className="absolute right-[-10rem] top-[30rem] h-[24rem] w-[24rem] rounded-full bg-sky-500/[0.06] blur-[100px]" />
+        <div className="bg-grid-fade absolute inset-0" />
       </div>
 
-      {/* Collapsible System Prompt Editor (Only shown when clicked) */}
-      {showPromptEditor && (
-        <div
-          style={{
-            width: '100%',
-            maxWidth: 880,
-            background: '#11131A',
-            border: '1px solid #262B3D',
-            borderRadius: 14,
-            padding: 16,
-            marginBottom: 24,
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: 8,
-              marginBottom: 10,
-            }}
-          >
-            <span style={{ fontSize: 12, fontWeight: 600, color: '#E2E8F0' }}>
-              Séance Agent System Prompt
-            </span>
-            <div style={{ display: 'flex', gap: 6 }}>
-              {Object.values(SYSTEM_PROMPT_PRESETS).map((preset) => (
-                <button
-                  key={preset.id}
-                  onClick={() => {
-                    setPersonaKey(preset.id);
-                    setSystemPrompt(preset.prompt);
-                    if (scanData && topResult) {
-                      triggerSeance(scanData, topResult, blockchainProof, preset.prompt, preset.id);
-                    }
-                  }}
-                  style={{
-                    fontSize: 11,
-                    padding: '4px 10px',
-                    borderRadius: 6,
-                    background: personaKey === preset.id ? 'rgba(0, 255, 156, 0.14)' : '#090A0F',
-                    border: `1px solid ${personaKey === preset.id ? '#00FF9C' : '#262B3D'}`,
-                    color: personaKey === preset.id ? '#00FF9C' : '#94A3B8',
-                    cursor: 'pointer',
-                  }}
-                >
-                  {preset.label}
-                </button>
-              ))}
+      {/* ---------------- Navbar ---------------- */}
+      <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-[#09090b]/70 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-sky-500 shadow-lg shadow-indigo-500/25 ring-1 ring-white/20">
+              <ShieldCheck className="h-[18px] w-[18px] text-white" strokeWidth={2.25} />
+            </div>
+            <div className="leading-tight">
+              <p className="text-[15px] font-semibold tracking-tight text-white">FaceLedger</p>
+              <p className="text-[11px] text-zinc-500">Biometric provenance, on-chain</p>
             </div>
           </div>
-          <textarea
-            rows={2}
-            value={systemPrompt}
-            onChange={(e) => setSystemPrompt(e.target.value)}
-            className="font-mono"
-            style={{
-              width: '100%',
-              background: '#090A0F',
-              border: '1px solid #1E2230',
-              borderRadius: 8,
-              padding: 10,
-              color: '#CBD5E1',
-              fontSize: 11,
-              lineHeight: 1.5,
-              outline: 'none',
-            }}
-          />
-        </div>
-      )}
 
-      {/* Clean Header Title */}
-      <div style={{ textAlign: 'center', marginBottom: 32, maxWidth: 640 }}>
-        <h1 style={{ color: '#fff', fontSize: 26, fontWeight: 700, marginBottom: 6 }}>
-          Face → Web Match & Blockchain Verification
-        </h1>
-        <p style={{ color: '#64748B', fontSize: 13 }}>
-          Extracts 128-D biometrics locally, discovers digital doppelgängers on the web, and anchors tamper-evident proofs onto a Merkle blockchain.
-        </p>
-      </div>
-
-      {/* Main Two-Panel Layout */}
-      <div
-        style={{
-          display: 'flex',
-          gap: 28,
-          alignItems: 'flex-start',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-          width: '100%',
-          maxWidth: 880,
-        }}
-      >
-        {/* ---- LEFT: Input Image ---- */}
-        <div style={{ flex: 1, minWidth: 280, maxWidth: 426 }}>
-          <p
-            style={{
-              color: '#64748B',
-              fontSize: 11,
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: 1.4,
-              marginBottom: 10,
-            }}
-          >
-            Input Face Image
-          </p>
-          <div
-            onClick={() => !inputImage && fileInputRef.current?.click()}
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => {
-              e.preventDefault();
-              handleFile(e.dataTransfer.files?.[0]);
-            }}
-            style={{
-              background: '#11131A',
-              border: inputImage ? '1.5px solid #1E2230' : '2px dashed #262B3D',
-              borderRadius: 18,
-              minHeight: 360,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: inputImage ? 'default' : 'pointer',
-              overflow: 'hidden',
-              position: 'relative',
-            }}
-          >
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              style={{ display: 'none' }}
-              onChange={(e) => handleFile(e.target.files?.[0])}
-            />
-            {inputImage ? (
-              <img
-                src={inputImage}
-                alt="Input"
-                style={{ width: '100%', objectFit: 'contain', maxHeight: 420, display: 'block' }}
-              />
-            ) : (
-              <div style={{ textAlign: 'center', padding: 32 }}>
-                <div style={{ fontSize: 40, marginBottom: 12 }}>📷</div>
-                <p style={{ color: '#94A3B8', fontSize: 14, fontWeight: 500, lineHeight: 1.6 }}>
-                  Click or drag & drop a face image
-                </p>
-                <p style={{ color: '#475569', fontSize: 12, marginTop: 4 }}>
-                  Processed locally via OpenCV (128-D embedding)
-                </p>
-              </div>
-            )}
-          </div>
-
-          {/* Sample presets when empty, or Reset button when loaded */}
-          {inputImage && !loading ? (
-            <button
-              onClick={reset}
-              style={{
-                marginTop: 12,
-                width: '100%',
-                padding: '10px',
-                background: '#11131A',
-                border: '1px solid #1E2230',
-                borderRadius: 12,
-                color: '#94A3B8',
-                fontSize: 13,
-                cursor: 'pointer',
-              }}
-            >
-              ↺ Upload New Image
-            </button>
-          ) : (
-            sampleFaces.length > 0 &&
-            !loading && (
-              <div style={{ marginTop: 10, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                {sampleFaces.slice(0, 3).map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => handleSelectSample(s)}
-                    style={{
-                      flex: 1,
-                      padding: '7px 10px',
-                      background: '#11131A',
-                      border: '1px solid #1E2230',
-                      borderRadius: 10,
-                      color: '#94A3B8',
-                      fontSize: 11,
-                      cursor: 'pointer',
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                    }}
-                  >
-                    Try: {s.name.split(' (')[0]}
-                  </button>
-                ))}
-              </div>
-            )
-          )}
-        </div>
-
-        {/* ---- RIGHT: Matched Result ---- */}
-        <div style={{ flex: 1, minWidth: 280, maxWidth: 426 }}>
-          <p
-            style={{
-              color: '#64748B',
-              fontSize: 11,
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: 1.4,
-              marginBottom: 10,
-            }}
-          >
-            Matched Social Media Result
-          </p>
-
-          <div
-            style={{
-              background: '#11131A',
-              border: '1.5px solid #1E2230',
-              borderRadius: 18,
-              minHeight: 360,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              overflow: 'hidden',
-            }}
-          >
-            {loading ? (
-              <div style={{ textAlign: 'center', padding: 32 }}>
-                <div
-                  style={{
-                    width: 40,
-                    height: 40,
-                    border: '3px solid #1E2230',
-                    borderTopColor: '#00FF9C',
-                    borderRadius: '50%',
-                    animation: 'spin 0.8s linear infinite',
-                    margin: '0 auto 16px',
-                  }}
+          <div className="flex items-center gap-2">
+            <div className="hidden items-center gap-2 rounded-full border border-white/[0.07] bg-white/[0.03] px-3 py-1.5 text-xs sm:flex">
+              <span className="relative flex h-2 w-2">
+                <span
+                  className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-60 ${
+                    health ? 'bg-emerald-400' : 'bg-zinc-500'
+                  }`}
                 />
-                <p style={{ color: '#64748B', fontSize: 13 }}>Searching social media & web...</p>
-              </div>
-            ) : error ? (
-              <div style={{ textAlign: 'center', padding: 32 }}>
-                <div style={{ fontSize: 32, marginBottom: 10 }}>⚠️</div>
-                <p style={{ color: '#FF4D4D', fontSize: 13, lineHeight: 1.6 }}>{error}</p>
-              </div>
-            ) : topResult ? (
-              <img
-                src={topResult.image_url}
-                alt="Matched result"
-                style={{ width: '100%', objectFit: 'contain', maxHeight: 420, display: 'block' }}
-                onError={(e) => {
-                  const nextResult = results.find((r) => r.image_url !== e.target.src);
-                  if (nextResult) e.target.src = nextResult.image_url;
-                  else if (inputImage) e.target.src = inputImage;
+                <span className={`relative inline-flex h-2 w-2 rounded-full ${health ? 'bg-emerald-400' : 'bg-zinc-500'}`} />
+              </span>
+              <span className="text-zinc-400">{health ? 'Node online' : 'Connecting'}</span>
+              {health && (
+                <>
+                  <span className="h-3 w-px bg-white/10" />
+                  <span className="font-mono text-zinc-300">#{health.blockchain_height}</span>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main className="relative z-10 mx-auto max-w-6xl px-6 pb-24 pt-14">
+        {/* ---------------- Hero ---------------- */}
+        <section className="mx-auto max-w-2xl text-center">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-[12px] text-zinc-400">
+            <Fingerprint className="h-3.5 w-3.5 text-indigo-300" />
+            128-D facial embeddings · Merkle-anchored evidence
+          </div>
+          <h1 className="bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-4xl font-semibold tracking-tight text-transparent sm:text-5xl">
+            Trace a face across the web.
+            <br />
+            Prove it on-chain.
+          </h1>
+          <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-zinc-400">
+            Upload a portrait to discover where it appears online, then seal a tamper-evident record of the match into a
+            signed, proof-of-work blockchain.
+          </p>
+        </section>
+
+        {/* ---------------- Stepper ---------------- */}
+        <section className="mx-auto mt-12 max-w-3xl">
+          <Card className="px-5 py-4">
+            <div className="flex items-center justify-between gap-2">
+              <Step index={1} label="Detect face" icon={ScanFace} state={stepState('detect')} />
+              <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-white/[0.03]" />
+              <Step index={2} label="Web discovery" icon={Globe} state={stepState('search')} />
+              <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-white/[0.03]" />
+              <Step index={3} label="Anchor block" icon={Blocks} state={stepState('anchor')} />
+              <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-white/[0.03]" />
+              <Step index={4} label="Verify" icon={BadgeCheck} state={stepState('verify')} />
+            </div>
+          </Card>
+        </section>
+
+        {/* ---------------- Two-panel workspace ---------------- */}
+        <section className="mt-10 grid gap-6 lg:grid-cols-2">
+          {/* LEFT: Input */}
+          <div>
+            <SectionLabel
+              right={
+                inputImage &&
+                !loading && (
+                  <button
+                    onClick={reset}
+                    className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs text-zinc-400 transition hover:bg-white/5 hover:text-zinc-100"
+                  >
+                    <RotateCcw className="h-3.5 w-3.5" />
+                    New image
+                  </button>
+                )
+              }
+            >
+              Source image
+            </SectionLabel>
+
+            <Card className="overflow-hidden">
+              <div
+                onClick={() => !inputImage && fileInputRef.current?.click()}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  setDragOver(true);
                 }}
-              />
-            ) : (
-              <div style={{ textAlign: 'center', padding: 32 }}>
-                <div style={{ fontSize: 40, marginBottom: 12 }}>🔍</div>
-                <p style={{ color: '#475569', fontSize: 13 }}>Result image will appear here</p>
+                onDragLeave={() => setDragOver(false)}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  setDragOver(false);
+                  handleFile(e.dataTransfer.files?.[0]);
+                }}
+                className={`relative flex aspect-[4/3] items-center justify-center transition-colors ${
+                  inputImage ? 'bg-black/40' : 'cursor-pointer'
+                } ${dragOver ? 'bg-indigo-500/[0.06]' : ''}`}
+              >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => handleFile(e.target.files?.[0])}
+                />
+                {inputImage ? (
+                  <>
+                    <img src={inputImage} alt="Input" className="h-full w-full object-contain" />
+                    {loading && stage === 'detect' && <div className="scan-line absolute inset-x-0 top-0 h-24" />}
+                  </>
+                ) : (
+                  <div
+                    className={`m-4 flex h-[calc(100%-2rem)] w-[calc(100%-2rem)] flex-col items-center justify-center rounded-xl border border-dashed transition-colors ${
+                      dragOver ? 'border-indigo-400/60' : 'border-white/10 hover:border-white/20'
+                    }`}
+                  >
+                    <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.03]">
+                      <UploadCloud className="h-6 w-6 text-zinc-300" />
+                    </div>
+                    <p className="text-sm font-medium text-zinc-200">Drop an image, or click to browse</p>
+                    <p className="mt-1 text-xs text-zinc-500">JPG, PNG or WebP · processed locally for embeddings</p>
+                  </div>
+                )}
               </div>
-            )}
+
+              {primaryFace && (
+                <div className="grid grid-cols-2 gap-2 border-t border-white/[0.05] p-3">
+                  <MetaItem icon={ScanFace} label="Face confidence" value={faceConfidence} />
+                  <MetaItem icon={Layers} label="Embedding" value={`${primaryFace.embedding?.length || 128}-D vector`} />
+                  <MetaItem icon={Hash} label="Perceptual hash" value={phash || '—'} copy={phash} />
+                  <MetaItem
+                    icon={Fingerprint}
+                    label="SHA-256"
+                    value={truncateMiddle(imageMeta?.sha256, 8, 6)}
+                    copy={imageMeta?.sha256}
+                  />
+                </div>
+              )}
+            </Card>
           </div>
 
-          {/* Clean Links Below Image */}
-          {results.length > 0 && (
-            <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {results.slice(0, 3).map((r, i) => {
-                const isSelected = topResult?.id === r.id;
-                const simPct = Math.round((r.cosine_similarity || r.confidence_score || 0.96) * 100);
-                return (
-                  <div
-                    key={r.id || i}
-                    onClick={() => {
-                      setSelectedMatch(r);
-                      anchorToBlockchain(r, primaryFace, phash, scanData);
-                    }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      gap: 10,
-                      padding: '10px 14px',
-                      background: isSelected ? '#131C18' : '#11131A',
-                      border: `1px solid ${isSelected ? 'rgba(0, 255, 156, 0.35)' : '#1E2230'}`,
-                      borderRadius: 12,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
+          {/* RIGHT: Match */}
+          <div>
+            <SectionLabel
+              right={
+                results.length > 0 && (
+                  <span className="text-xs text-zinc-500">
+                    {results.length} match{results.length === 1 ? '' : 'es'} found
+                  </span>
+                )
+              }
+            >
+              Web match
+            </SectionLabel>
+
+            <Card className="overflow-hidden">
+              <div className="relative flex aspect-[4/3] items-center justify-center bg-black/40">
+                {loading ? (
+                  <div className="flex flex-col items-center text-center">
+                    <div className="relative mb-5 h-12 w-12">
+                      <div className="absolute inset-0 rounded-full border-2 border-white/[0.06]" />
+                      <div className="absolute inset-0 animate-spin rounded-full border-2 border-transparent border-t-indigo-400" />
+                    </div>
+                    <p className="text-sm font-medium text-zinc-200">
+                      {stage === 'detect' ? 'Extracting facial embedding…' : 'Searching the web…'}
+                    </p>
+                    <p className="mt-1 text-xs text-zinc-500">
+                      {stage === 'detect' ? 'Locating landmarks and hashing image' : 'Running reverse image discovery'}
+                    </p>
+                  </div>
+                ) : error ? (
+                  <div className="flex max-w-xs flex-col items-center px-6 text-center">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl border border-rose-500/20 bg-rose-500/10">
+                      <AlertTriangle className="h-5 w-5 text-rose-400" />
+                    </div>
+                    <p className="text-sm font-medium text-zinc-200">We couldn't complete the search</p>
+                    <p className="mt-1 text-xs leading-relaxed text-zinc-500">{error}</p>
+                  </div>
+                ) : topResult ? (
+                  <>
+                    <img
+                      src={topResult.image_url}
+                      alt="Matched result"
+                      className="h-full w-full object-contain"
+                      onError={(e) => {
+                        const nextResult = results.find((r) => r.image_url !== e.target.src);
+                        if (nextResult) e.target.src = nextResult.image_url;
+                      }}
+                    />
+                    {topResult.confidence_score != null && (
+                      <div className="absolute left-3 top-3 rounded-full border border-white/10 bg-black/60 px-2.5 py-1 text-[11px] font-medium text-zinc-200 backdrop-blur-md">
+                        {(topResult.confidence_score * 100).toFixed(0)}% similarity
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="flex flex-col items-center text-center">
+                    <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.03]">
+                      <ImageOff className="h-6 w-6 text-zinc-500" />
+                    </div>
+                    <p className="text-sm font-medium text-zinc-400">No match yet</p>
+                    <p className="mt-1 text-xs text-zinc-600">Results will appear here after upload</p>
+                  </div>
+                )}
+              </div>
+
+              {results.length > 0 && (
+                <div className="divide-y divide-white/[0.04] border-t border-white/[0.05]">
+                  {results.slice(0, 3).map((r, i) => (
+                    <div
+                      key={r.id || i}
+                      onClick={() => setSelectedIdx(i)}
+                      className={`group flex cursor-pointer items-center gap-3 px-4 py-3 transition ${
+                        i === selectedIdx ? 'bg-white/[0.03]' : 'hover:bg-white/[0.02]'
+                      }`}
+                    >
                       <span
-                        style={{
-                          fontSize: 10,
-                          fontWeight: 700,
-                          textTransform: 'uppercase',
-                          letterSpacing: 0.8,
-                          color: '#fff',
-                          background: platformColor(r.platform),
-                          padding: '2px 7px',
-                          borderRadius: 6,
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        {r.platform}
-                      </span>
+                        className="h-2 w-2 shrink-0 rounded-full"
+                        style={{ background: platformColor(r.platform), boxShadow: `0 0 10px ${platformColor(r.platform)}66` }}
+                      />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2">
+                          <p className="truncate text-[13px] font-medium text-zinc-200">{r.title || r.platform}</p>
+                          {i === 0 && (
+                            <span className="shrink-0 rounded-md border border-indigo-400/20 bg-indigo-500/10 px-1.5 py-0.5 text-[10px] font-medium text-indigo-300">
+                              Top
+                            </span>
+                          )}
+                        </div>
+                        <p className="truncate text-xs text-zinc-500">
+                          {r.platform} · {r.post_url}
+                        </p>
+                      </div>
                       <a
                         href={r.post_url}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        style={{
-                          color: isSelected ? '#E2E8F0' : '#94A3B8',
-                          fontSize: 12,
-                          textDecoration: 'none',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                        }}
+                        className="shrink-0 rounded-lg p-2 text-zinc-500 transition hover:bg-white/5 hover:text-zinc-100"
+                        title="Open source"
                       >
-                        {r.post_url}
+                        <ArrowUpRight className="h-4 w-4" />
                       </a>
                     </div>
-                    <span
-                      className="font-mono"
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 700,
-                        color: '#00FF9C',
-                        flexShrink: 0,
-                      }}
-                    >
-                      {simPct}%
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* ---- CLEAN 128-D VECTOR & AI SÉANCE REPORT CARD ---- */}
-      {topResult && (
-        <div
-          style={{
-            width: '100%',
-            maxWidth: 880,
-            marginTop: 28,
-            background: '#11131A',
-            border: '1px solid #1E2230',
-            borderRadius: 18,
-            padding: 22,
-          }}
-        >
-          {/* Top Metrics Row */}
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: 12,
-              paddingBottom: 16,
-              borderBottom: '1px solid #1E2230',
-            }}
-          >
-            <div>
-              <h3 style={{ color: '#fff', fontSize: 15, fontWeight: 700 }}>
-                128-D Vector Radar & Local AI Séance Report
-              </h3>
-              <p style={{ color: '#64748B', fontSize: 12, marginTop: 2 }}>
-                Cosine Similarity:{' '}
-                <strong className="font-mono" style={{ color: '#00FF9C' }}>
-                  {(vectorMetrics.cosineSimilarity * 100).toFixed(2)}%
-                </strong>{' '}
-                · L2 Distance:{' '}
-                <strong className="font-mono" style={{ color: '#E2E8F0' }}>
-                  {vectorMetrics.euclideanDistance.toFixed(4)}
-                </strong>{' '}
-                · Sighting:{' '}
-                <span className="font-mono" style={{ color: '#FF4D4D' }}>
-                  {topResult.sighting_time_utc || '03:14 UTC'}
-                </span>
-              </p>
-            </div>
-
-            {/* Clean Tab Switcher */}
-            <div
-              style={{
-                display: 'flex',
-                background: '#090A0F',
-                padding: 3,
-                borderRadius: 10,
-                border: '1px solid #1E2230',
-              }}
-            >
-              <button
-                onClick={() => setActiveReportTab('spooky')}
-                style={{
-                  padding: '6px 12px',
-                  borderRadius: 7,
-                  fontSize: 12,
-                  fontWeight: 600,
-                  border: 'none',
-                  cursor: 'pointer',
-                  background: activeReportTab === 'spooky' ? '#1E2230' : 'transparent',
-                  color: activeReportTab === 'spooky' ? '#00FF9C' : '#64748B',
-                }}
-              >
-                Ghost in the Machine Log
-              </button>
-              <button
-                onClick={() => setActiveReportTab('forensic')}
-                style={{
-                  padding: '6px 12px',
-                  borderRadius: 7,
-                  fontSize: 12,
-                  fontWeight: 600,
-                  border: 'none',
-                  cursor: 'pointer',
-                  background: activeReportTab === 'forensic' ? '#1E2230' : 'transparent',
-                  color: activeReportTab === 'forensic' ? '#38BDF8' : '#64748B',
-                }}
-              >
-                Forensic & Privacy Audit
-              </button>
-            </div>
+                  ))}
+                </div>
+              )}
+            </Card>
           </div>
+        </section>
 
-          {/* Sleek 128-D Spectrum Bar */}
-          {scanData?.primary_face?.embedding && (
-            <div style={{ marginTop: 14, marginBottom: 14 }}>
-              <div
-                style={{
-                  height: 28,
-                  display: 'flex',
-                  alignItems: 'flex-end',
-                  gap: 2,
-                  background: '#090A0F',
-                  padding: '4px 6px',
-                  borderRadius: 8,
-                  border: '1px solid #181C28',
-                }}
-              >
-                {scanData.primary_face.embedding.slice(0, 64).map((val, idx) => {
-                  const pVal = topResult.phantom_embedding?.[idx] ?? val;
-                  const delta = Math.abs(val - pVal);
-                  const h = Math.min(100, Math.max(15, Math.abs(val) * 360));
-                  return (
-                    <div
-                      key={idx}
-                      style={{
-                        flex: 1,
-                        height: `${h}%`,
-                        background: delta > 0.032 ? '#FF4D4D' : '#00FF9C',
-                        opacity: delta > 0.032 ? 0.9 : 0.65,
-                        borderRadius: 1,
-                      }}
+        {/* ---------------- Blockchain record ---------------- */}
+        {results.length > 0 && (
+          <section className="mt-10">
+            <SectionLabel>Evidence record</SectionLabel>
+            <Card className="p-6">
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.08] bg-gradient-to-br from-indigo-500/20 to-sky-500/10">
+                    <Blocks className="h-5 w-5 text-indigo-300" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-semibold tracking-tight text-white">Blockchain evidence</h3>
+                    <p className="mt-0.5 text-sm text-zinc-500">
+                      Proof-of-work block with Merkle inclusion proof and ECDSA signature
+                    </p>
+                  </div>
+                </div>
+
+                {anchoring ? (
+                  <span className="inline-flex items-center gap-2 rounded-full border border-indigo-400/20 bg-indigo-500/10 px-3 py-1 text-xs font-medium text-indigo-300">
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                    Mining block…
+                  </span>
+                ) : blockchainProof ? (
+                  <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-300">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                    Anchored on-chain
+                  </span>
+                ) : null}
+              </div>
+
+              {anchoring && !blockchainProof && (
+                <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  {[0, 1, 2, 3].map((i) => (
+                    <div key={i} className="h-[62px] animate-pulse rounded-xl border border-white/[0.05] bg-white/[0.02]" />
+                  ))}
+                </div>
+              )}
+
+              {blockchainProof && (
+                <>
+                  <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                    <MetaItem icon={Layers} label="Block height" value={`#${blockchainProof.block_number}`} mono={false} />
+                    <MetaItem
+                      icon={Hash}
+                      label="Block hash"
+                      value={truncateMiddle(blockchainProof.block_hash, 8, 6)}
+                      copy={blockchainProof.block_hash}
                     />
-                  );
-                })}
-              </div>
-            </div>
-          )}
+                    <MetaItem
+                      icon={Blocks}
+                      label="Merkle root"
+                      value={truncateMiddle(blockchainProof.merkle_root, 8, 6)}
+                      copy={blockchainProof.merkle_root}
+                    />
+                    <MetaItem icon={KeyRound} label="Signature" value="secp256k1 · valid" mono={false} />
+                  </div>
 
-          {/* Clean Report Output Box */}
-          <div
-            style={{
-              background: '#090A0F',
-              border: '1px solid #181C28',
-              borderRadius: 12,
-              padding: 16,
-              maxHeight: 260,
-              overflowY: 'auto',
-            }}
-          >
-            {seanceLoading ? (
-              <p className="font-mono" style={{ color: '#64748B', fontSize: 12 }}>
-                Analyzing 128-D vector distance with {selectedModel}...
-              </p>
-            ) : (
-              <pre
-                className="font-mono"
-                style={{
-                  margin: 0,
-                  whiteSpace: 'pre-wrap',
-                  wordBreak: 'break-word',
-                  fontSize: 11.5,
-                  lineHeight: 1.65,
-                  color: activeReportTab === 'spooky' ? '#A7F3D0' : '#CBD5E1',
-                }}
-              >
-                {activeReportTab === 'spooky'
-                  ? seanceReport?.spookyLog || 'Generating report...'
-                  : seanceReport?.forensicAudit || 'Generating audit...'}
-              </pre>
-            )}
-          </div>
-        </div>
-      )}
+                  {blockchainProof.tx_id && (
+                    <div className="mt-3 flex items-center gap-3 rounded-xl border border-white/[0.05] bg-black/20 px-3.5 py-2.5">
+                      <span className="text-[10.5px] font-medium uppercase tracking-wider text-zinc-500">Tx</span>
+                      <span className="min-w-0 flex-1 truncate font-mono text-[12.5px] text-zinc-300">
+                        {blockchainProof.tx_id}
+                      </span>
+                      <CopyButton value={blockchainProof.tx_id} />
+                    </div>
+                  )}
 
-      {/* ---- BLOCKCHAIN VERIFICATION SECTION ---- */}
-      {topResult && (
-        <div
-          style={{
-            width: '100%',
-            maxWidth: 880,
-            marginTop: 20,
-            background: '#11131A',
-            border: '1px solid #1E2230',
-            borderRadius: 18,
-            padding: 22,
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: 16,
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span style={{ fontSize: 18 }}>⛓️</span>
-              <div>
-                <h3 style={{ color: '#fff', fontSize: 15, fontWeight: 700 }}>
-                  Blockchain Evidence Record
-                </h3>
-                <p style={{ color: '#64748B', fontSize: 12 }}>
-                  Tamper-evident Proof-of-Work & Merkle Tree ledger record
-                </p>
-              </div>
-            </div>
-            {anchoring ? (
-              <span style={{ color: '#00FF9C', fontSize: 12 }}>Mining Block...</span>
-            ) : blockchainProof ? (
-              <span
-                style={{
-                  background: 'rgba(0, 255, 156, 0.1)',
-                  color: '#00FF9C',
-                  border: '1px solid rgba(0, 255, 156, 0.3)',
-                  fontSize: 11,
-                  fontWeight: 700,
-                  padding: '4px 10px',
-                  borderRadius: 8,
-                }}
-              >
-                ON-CHAIN ANCHORED
-              </span>
-            ) : null}
-          </div>
+                  {/* Actions */}
+                  <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                    <button
+                      onClick={handleReVerify}
+                      disabled={verifying}
+                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-medium text-zinc-900 shadow-sm transition hover:bg-zinc-200 disabled:opacity-60"
+                    >
+                      {verifying ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShieldCheck className="h-4 w-4" />}
+                      {verifying ? 'Verifying…' : 'Re-verify against chain'}
+                    </button>
+                    <button
+                      onClick={handleTestTamper}
+                      disabled={tampering}
+                      className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:border-white/20 hover:bg-white/[0.06] disabled:opacity-60"
+                    >
+                      {tampering ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShieldAlert className="h-4 w-4" />}
+                      {tampering ? 'Simulating…' : 'Simulate tampering'}
+                    </button>
+                  </div>
 
-          {blockchainProof && (
-            <div>
+                  {/* Verification Output Banner */}
+                  {verificationResult && (
+                    <div className="fade-in mt-5 flex items-start gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/[0.06] p-4">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-500/15">
+                        <BadgeCheck className="h-4 w-4 text-emerald-400" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-emerald-300">Verified authentic</p>
+                        <p className="mt-0.5 text-[13px] leading-relaxed text-zinc-400">
+                          Post URL, author, image hash and Merkle audit path exactly match the record in block #
+                          {verificationResult.block_number ?? blockchainProof.block_number}.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Tamper Output Banner */}
+                  {tamperResult && (
+                    <div className="fade-in mt-5 flex items-start gap-3 rounded-xl border border-rose-500/20 bg-rose-500/[0.06] p-4">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-rose-500/15">
+                        <ShieldAlert className="h-4 w-4 text-rose-400" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-rose-300">Tampering detected</p>
+                        <p className="mt-0.5 text-[13px] leading-relaxed text-zinc-400">
+                          {tamperResult.simulated_verification?.audit_breakdown?.[2]?.check ||
+                            'Altered content fails Merkle Tree audit path and block hash verification.'}
+                        </p>
+                        <p className="mt-2 truncate font-mono text-xs text-zinc-500">
+                          Altered URL:{' '}
+                          <span className="text-rose-300/80">
+                            {tamperResult.simulated_verification?.audit_breakdown?.[2]?.submitted ||
+                              'https://fake-tampered-site.com'}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </Card>
+          </section>
+        )}
+
+        {/* ---------------- Feature strip (idle state) ---------------- */}
+        {!inputImage && (
+          <section className="mt-14 grid gap-4 sm:grid-cols-3">
+            {[
+              {
+                icon: ScanFace,
+                title: 'Local biometrics',
+                body: 'Faces are detected and encoded into a 128-dimensional embedding with perceptual hashing.',
+              },
+              {
+                icon: Globe,
+                title: 'Web discovery',
+                body: 'Reverse image search surfaces where the same face appears across sites and social platforms.',
+              },
+              {
+                icon: Blocks,
+                title: 'Tamper-evident ledger',
+                body: 'Each match is sealed in a signed PoW block — any altered byte breaks the Merkle proof.',
+              },
+            ].map(({ icon: Icon, title, body }) => (
               <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))',
-                  gap: 12,
-                  marginBottom: 16,
-                }}
+                key={title}
+                className="rounded-2xl border border-white/[0.06] bg-white/[0.015] p-5 transition hover:border-white/10 hover:bg-white/[0.03]"
               >
-                <div
-                  style={{
-                    background: '#090A0F',
-                    padding: 12,
-                    borderRadius: 12,
-                    border: '1px solid #181C28',
-                  }}
-                >
-                  <p style={{ color: '#64748B', fontSize: 10, fontWeight: 600 }}>BLOCK HEIGHT</p>
-                  <p style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginTop: 2 }}>
-                    #{blockchainProof.block_number}
-                  </p>
+                <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.03]">
+                  <Icon className="h-4 w-4 text-zinc-300" />
                 </div>
-                <div
-                  style={{
-                    background: '#090A0F',
-                    padding: 12,
-                    borderRadius: 12,
-                    border: '1px solid #181C28',
-                  }}
-                >
-                  <p style={{ color: '#64748B', fontSize: 10, fontWeight: 600 }}>
-                    BLOCK HASH (SHA-256)
-                  </p>
-                  <p
-                    className="font-mono"
-                    style={{
-                      color: '#38BDF8',
-                      fontSize: 11,
-                      marginTop: 4,
-                      wordBreak: 'break-all',
-                    }}
-                  >
-                    {blockchainProof.block_hash}
-                  </p>
-                </div>
-                <div
-                  style={{
-                    background: '#090A0F',
-                    padding: 12,
-                    borderRadius: 12,
-                    border: '1px solid #181C28',
-                  }}
-                >
-                  <p style={{ color: '#64748B', fontSize: 10, fontWeight: 600 }}>MERKLE ROOT</p>
-                  <p
-                    className="font-mono"
-                    style={{
-                      color: '#C084FC',
-                      fontSize: 11,
-                      marginTop: 4,
-                      wordBreak: 'break-all',
-                    }}
-                  >
-                    {blockchainProof.merkle_root}
-                  </p>
-                </div>
-                <div
-                  style={{
-                    background: '#090A0F',
-                    padding: 12,
-                    borderRadius: 12,
-                    border: '1px solid #181C28',
-                  }}
-                >
-                  <p style={{ color: '#64748B', fontSize: 10, fontWeight: 600 }}>ECDSA SIGNATURE</p>
-                  <p
-                    className="font-mono"
-                    style={{ color: '#00FF9C', fontSize: 11, marginTop: 4 }}
-                  >
-                    secp256k1 Signed ✓
-                  </p>
-                </div>
+                <p className="text-sm font-medium text-zinc-100">{title}</p>
+                <p className="mt-1.5 text-[13px] leading-relaxed text-zinc-500">{body}</p>
               </div>
+            ))}
+          </section>
+        )}
+      </main>
 
-              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-                <button
-                  onClick={handleReVerify}
-                  disabled={verifying}
-                  style={{
-                    flex: 1,
-                    padding: '11px 16px',
-                    background: 'rgba(0, 255, 156, 0.08)',
-                    border: '1px solid rgba(0, 255, 156, 0.35)',
-                    borderRadius: 10,
-                    color: '#00FF9C',
-                    fontSize: 13,
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                  }}
-                >
-                  {verifying ? 'Verifying...' : '✓ Re-Verify Against On-Chain Record'}
-                </button>
-                <button
-                  onClick={handleTestTamper}
-                  disabled={tampering}
-                  style={{
-                    flex: 1,
-                    padding: '11px 16px',
-                    background: 'rgba(255, 77, 77, 0.08)',
-                    border: '1px solid rgba(255, 77, 77, 0.35)',
-                    borderRadius: 10,
-                    color: '#FF4D4D',
-                    fontSize: 13,
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                  }}
-                >
-                  {tampering ? 'Testing...' : '⚡ Test Tamper Detection'}
-                </button>
-              </div>
-
-              {verificationResult && (
-                <div
-                  style={{
-                    marginTop: 14,
-                    padding: 14,
-                    background: 'rgba(0, 255, 156, 0.06)',
-                    border: '1px solid rgba(0, 255, 156, 0.3)',
-                    borderRadius: 10,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 12,
-                  }}
-                >
-                  <span style={{ fontSize: 20 }}>✅</span>
-                  <div>
-                    <p style={{ color: '#00FF9C', fontSize: 13, fontWeight: 700 }}>
-                      VERIFIED AUTHENTIC: Matches On-Chain Record Exactly
-                    </p>
-                    <p style={{ color: '#94A3B8', fontSize: 12, marginTop: 2 }}>
-                      Post URL, Author, Image Hash & Merkle Audit Proof match Block #
-                      {verificationResult.block_number ?? blockchainProof.block_number}.
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {tamperResult && (
-                <div
-                  style={{
-                    marginTop: 14,
-                    padding: 14,
-                    background: 'rgba(255, 77, 77, 0.06)',
-                    border: '1px solid rgba(255, 77, 77, 0.35)',
-                    borderRadius: 10,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 12,
-                  }}
-                >
-                  <span style={{ fontSize: 20 }}>🚨</span>
-                  <div>
-                    <p style={{ color: '#FF4D4D', fontSize: 13, fontWeight: 700 }}>
-                      TAMPER DETECTED: Cryptographic Integrity Failure
-                    </p>
-                    <p style={{ color: '#FCA5A5', fontSize: 12, marginTop: 2 }}>
-                      {tamperResult.simulated_verification?.audit_breakdown?.[2]?.check ||
-                        'Altered content fails Merkle Tree audit path verification.'}{' '}
-                      — Altered URL:{' '}
-                      {tamperResult.simulated_verification?.audit_breakdown?.[2]?.submitted ||
-                        'https://fake-tampered-site.com'}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+      <footer className="relative z-10 border-t border-white/[0.05]">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-6 py-6 text-xs text-zinc-600 sm:flex-row">
+          <p>FaceLedger · HHG-3</p>
+          <a
+            href="/docs"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 transition hover:text-zinc-300"
+          >
+            API reference <ExternalLink className="h-3 w-3" />
+          </a>
         </div>
-      )}
-
-      {/* Subtle Single-Line Terminal Status */}
-      <div
-        className="font-mono"
-        style={{
-          width: '100%',
-          maxWidth: 880,
-          marginTop: 20,
-          padding: '8px 14px',
-          background: '#11131A',
-          border: '1px solid #181C28',
-          borderRadius: 10,
-          fontSize: 11,
-          color: '#64748B',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {statusWhisper}
-      </div>
-
-      <style>{`
-        @keyframes spin { to { transform: rotate(360deg); } }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        a:hover { opacity: 0.85; }
-        button:hover { filter: brightness(1.08); }
-      `}</style>
+      </footer>
     </div>
   );
 }

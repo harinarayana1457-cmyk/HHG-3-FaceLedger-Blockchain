@@ -1,61 +1,59 @@
 <div align="center">
 
-# 👻 PHANTOMLEDGER (`HHG-3`)
-### Hunting Digital Doppelgängers in the Machine — 100% Open-Source Local Biometric Séance & Merkle Blockchain Pipeline
+# 🔍 FaceLedger (HHG-3)
+### Biometric Facial Verification, Web OSINT Discovery & Cryptographic Merkle Blockchain Registry
 
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-00FF9C?style=for-the-badge&logo=github&logoColor=black)](https://harinarayana1457-cmyk.github.io/HHG-3/)
-[![Open-Source AI](https://img.shields.io/badge/Ollama-Local%20Open--Weight%20LLMs-FF4D4D?style=for-the-badge)](https://ollama.com/)
-[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![React](https://img.shields.io/badge/React-18%20Haunted%20UI-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
-[![OpenCV](https://img.shields.io/badge/OpenCV-128--D%20Biometrics-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)](https://opencv.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+An end-to-end forensic digital provenance pipeline that extracts 128-dimensional biometric facial embeddings, discovers matching web and social media sources across public OSINT platforms, and anchors tamper-evident cryptographic evidence onto a custom Merkle-tree blockchain and EVM smart contract registry with real-time audit verification.
+
+[![Python Version](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-18.2-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![OpenCV](https://img.shields.io/badge/Computer_Vision-OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)](https://opencv.org/)
+[![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636?style=for-the-badge&logo=solidity&logoColor=white)](https://soliditylang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-10B981?style=for-the-badge)](./LICENSE)
+
+<br>
 
 <p align="center">
-  <b>PhantomLedger</b> is a local-first, cyber-occult forensic verification pipeline built for the <b>"Ghost in the Machine" Open-Source AI Challenge</b>. It extracts a human subject's <b>128-D OpenCV facial embedding</b> locally (0 bytes leaked to the cloud), hunts unauthorized <b>digital doppelgängers</b> across OSINT web indexes, channels a local open-weight LLM <b>"Séance Engine"</b> (<code>Ollama</code> + zero-dependency offline fallback), and traps detected phantoms inside a tamper-evident <b>Merkle Blockchain</b>.
+  <a href="#-key-features"><b>Explore Features</b></a> •
+  <a href="#-system-architecture"><b>Architecture</b></a> •
+  <a href="#-the-4-step-forensic-pipeline"><b>Forensic Pipeline</b></a> •
+  <a href="#-cryptographic-blockchain-details"><b>Blockchain Specs</b></a> •
+  <a href="#-quick-start"><b>Quick Start</b></a> •
+  <a href="#-automated-testing"><b>Testing</b></a> •
+  <a href="#-project-structure"><b>Structure</b></a> •
+  <a href="#-connect--author"><b>Connect</b></a>
 </p>
-
-[✨ Key Features](#-key-features) • [🏛️ System Architecture](#-system-architecture) • [🔮 Ollama Séance Setup](#-offline-ollama--open-weight-llm-setup) • [🚀 Quickstart](#-quickstart-guide) • [📂 Project Structure](#-project-structure) • [🧪 Automated Tests](#-automated-testing)
 
 </div>
 
 ---
 
-## 🌟 Key Features
+## 📖 Overview
 
-### 1. 🧬 Local Biometric Capture (`OpenCV` 128-D Embeddings — 0 Cloud Bytes Leaked)
-* Detects facial bounding boxes and craniofacial landmarks (eyes, nose bridge, mouth corners, jawline) locally on your machine.
-* Extracts a **128-dimensional L2-normalized biometric vector**:
-  * **Dims `00..31`:** Craniofacial geometric landmark ratios
-  * **Dims `32..95`:** 4×4 spatial gradient & structural density histograms
-  * **Dims `96..127`:** 2D-DCT spectral frequency coefficients (sensitive to GAN/deepfake upscaling artifacts)
-* Computes raw image **SHA-256 cryptographic digests** and **64-bit Perceptual Hashes (`dHash`)**.
+In an era of generative AI deepfakes, manipulated profile images, and unverified digital identities, establishing the origin and integrity of human facial media is a critical digital forensics challenge.
 
-### 2. 📡 OSINT Phantom Radar & 128-D Vector Ghost Radar
-* Sweeps web and social media OSINT indexes to discover unauthorized reposts, synthetic clones, and dead-internet impersonator bots.
-* Computes exact **Cosine Similarity** and **L2 Euclidean Distance (`||u - v||₂`)** between the **Living Original (`#00FF9C`)** and the **Detected Web Phantom (`#FF4D4D`)**.
-* Visualizes the comparison on a **16-sector Polar Radar Oscilloscope** and a **64-channel Interactive Spectrum Overlay**.
+**FaceLedger (HHG-3)** provides a complete forensic pipeline that:
+1. Ingests images via file upload or live webcam.
+2. Extracts **128-dimensional L2-normalized biometric embeddings** and perceptual image hashes (`SHA-256`, `pHash`, `dHash`).
+3. Discovers matching public web posts across social platforms (Twitter/X, Reddit, Instagram, LinkedIn, Wikipedia, and News).
+4. Commits canonical evidence packages to an immutable **Merkle-tree Proof-of-Work blockchain** and an **EVM Solidity smart contract**.
+5. Provides an interactive **Tamper Verification Laboratory** allowing users to simulate 1-byte data corruption and observe cryptographic audit failure in real time.
 
-### 3. 🔮 Open-Weight AI "Séance Engine" (`src/ai/phantomAgent.js`)
-* Connects to local **Ollama** (`http://localhost:11434/api/generate`) with dynamic hot-swapping across open-weight models:
-  * `llama3.2:3b` (Meta Llama 3.2 3B — *Spectral OSINT Whisperer*)
-  * `mistral:7b` (Mistral 7B v0.3 — *Deep Cryptographic Inquisitor*)
-  * `qwen2.5:3b` (Qwen 2.5 3B — *128-D Vector Anomaly Analyst*)
-  * `phi3.5` (Microsoft Phi-3.5 Mini — *Air-Gapped Forensic Sentinel*)
-* Includes a live **System Prompt Editor** with one-click persona presets (*"Paranormal Terminal Possessor"*, *"Strict Cryptographic Forensic Auditor"*, *"Dead-Internet Counter-Insurgency Unit"*).
-* Features an automatic **Zero-Dependency Offline Fallback**: if Ollama is not running on a judge's machine, the Séance Engine deterministically synthesizes both reports directly from the 128-D vector distances and OSINT telemetry without errors.
-* Outputs **two structured tabs** for every scan:
-  1. **👻 "Ghost in the Machine Log" (Spooky Mode):** Eerie terminal narration describing where the user's digital doppelgänger was spotted while they were asleep (`03:14 UTC`), the exact 128-D Euclidean/cosine similarity score, and how the phantom was trapped in Block `#N`.
-  2. **🛡️ "Forensic & Privacy Audit" (Technical Mode):** Mathematical breakdown of 128-D sub-vector drift, anomaly flags, zero-byte cloud telemetry attestation, and Merkle root proof.
+---
 
-### 4. ⛓️ Cryptographic "Ghost Trap" (Custom Merkle Blockchain + Solidity Contract)
-* Seals the human identity digest and detected doppelgänger evidence inside a **Binary Merkle Tree**, mined via **SHA-256 Proof-of-Work (`0x00...`)** and signed by an **ECDSA `secp256k1` validator authority**.
-* Includes an interactive **Tamper Simulation Lab** that proves altering even 1 byte of a URL, author handle, or image hash immediately invalidates the Merkle root audit path.
+## ✨ Key Features
 
-### 5. 🖥️ "Haunted Forensic Terminal" UI & Live Sovereignty HUD
-* Dark **Cyber-Occult / Haunted Terminal** aesthetic (`#090A0F` obsidian background, `#00FF9C` phosphor green, `#FF4D4D` blood-orange alerts, `JetBrains Mono` typography).
-* **"Why Open Innovation Matters" Live Sovereignty HUD** displaying local inference status, `0 B` cloud leak counter, open-weight model selector, and live Merkle block height.
-* **Haunted Shell Commentary Bar** that whispers real-time eerie telemetry on every action.
+| Capability | Technical Implementation & Forensic Benefit |
+| :--- | :--- |
+| **🧬 Biometric Embedding Engine** | Generates a 128-D L2-normalized vector combining facial geometry, local structural gradients, and 2D-DCT frequency coefficients alongside image SHA-256 and 64-bit Perceptual Hashes (`pHash`/`dHash`). |
+| **🌐 Multi-Engine OSINT Discovery** | Queries public web and social media sources (Twitter/X, Reddit, Instagram, LinkedIn, Wikipedia, and Tech News), computing cosine similarity and perceptual matching against candidate faces. |
+| **⛓️ Native Merkle-Tree Blockchain** | Self-contained Python blockchain implementing binary Merkle trees, SHA-256 Proof-of-Work mining (`0x00...` difficulty target), and ECDSA (`secp256k1`) validator signatures with zero external gas costs. |
+| **📜 EVM Solidity Smart Contract** | `FaceEvidenceRegistry.sol` ready for Ethereum (Sepolia), Polygon (Amoy), Arbitrum, or local Anvil/Hardhat deployment, storing record IDs, hashes, and Merkle roots on-chain. |
+| **🛡️ Interactive Tamper Simulator** | Live audit lab where users compare authentic on-chain receipts against modified fields (e.g. altering 1 character in author handle or 1 byte in image hash) with instant visual diffs and Merkle proof path inspections. |
+| **🎛️ Cyber-Security Web Dashboard** | Dark-mode interface built with React 18 and Tailwind CSS, featuring a 4-step workflow wizard, 1-click test face presets, vector radar chart, webcam scanner, and live Block Explorer. |
 
 ---
 
@@ -65,68 +63,141 @@ The following diagram illustrates the end-to-end evidence pipeline—from image 
 
 ```mermaid
 flowchart TD
-    subgraph LocalCapture ["Step 1: Local Biometric Ingestion (0 Cloud Bytes)"]
-        A[User Image / Webcam / 1-Click Sample] --> B[OpenCV Haar + Landmark Alignment]
-        B --> C[128-D L2 Vector: 32D Geom + 64D Grad + 32D DCT]
-        B --> D[SHA-256 Digest & 64-Bit Perceptual dHash]
+    subgraph INGESTION ["Step 1: Ingestion & Biometric Encoding"]
+        A["User Image / Webcam Scan"] --> B["Face Detection & Landmark Alignment"]
+        B --> C["128-D L2-Normalized Biometric Vector"]
+        B --> D["SHA-256 Digest & 64-bit Perceptual Hash"]
     end
 
-    subgraph GhostRadar ["Step 2: OSINT Phantom Radar & Vector Ghost Radar"]
-        C & D --> E[Multi-Engine Reverse Web & OSINT Discovery]
-        E --> F[128-D Cosine Similarity & Euclidean L2 Distance]
-        F --> G[Polar Radar Oscilloscope & 64-Bar Spectrum Diff]
+    subgraph DISCOVERY ["Step 2: Reverse Web & OSINT Discovery"]
+        C & D --> E["Multi-Engine Web & Social Discovery"]
+        E --> F["Twitter/X, Reddit, Instagram, LinkedIn, News"]
+        F --> G["Ranked Matches with Cosine Similarity Scores"]
     end
 
-    subgraph Seance ["Step 3: Open-Weight AI Séance Engine (src/ai/phantomAgent.js)"]
-        G --> H{Ollama Local API :11434}
-        H -->|Daemon Active| I[llama3.2:3b / mistral:7b / qwen2.5:3b / phi3.5]
-        H -->|Air-Gapped Fallback| J[Deterministic Vector-to-Narrative Synthesizer]
-        I & J --> K[Tab 1: Ghost in the Machine Log - Spooky Mode]
-        I & J --> L[Tab 2: Forensic & Privacy Audit - Technical Mode]
+    subgraph BLOCKCHAIN ["Step 3: Blockchain Anchoring & Mining"]
+        G --> H["Canonical JSON Packaging & Merkle Leaf"]
+        H --> I["Proof-of-Work Mining (Target: 0x00...)"]
+        I --> J["ECDSA secp256k1 Validator Signature"]
+        J --> K["Immutable Block Mined & Linked to Ledger"]
     end
 
-    subgraph Blockchain ["Step 4: Cryptographic Ghost Trap (Merkle Blockchain)"]
-        G --> M[Canonical JSON Leaf + Binary Merkle Tree]
-        M --> N[SHA-256 Proof-of-Work Mining + secp256k1 Signature]
-        N --> O[Immutable Block #N Sealed + 1-Bit Tamper Lab]
+    subgraph VERIFICATION ["Step 4: Tamper-Evident Verification Lab"]
+        K --> L["On-Chain State Query & Merkle Path Recomputation"]
+        L --> M{"Cryptographic Match?"}
+        M -->|All Hashes & Signatures Match| N["VERIFIED AUTHENTIC"]
+        M -->|Any Byte or Text Modified| O["TAMPER DETECTED / INVALID"]
     end
 ```
 
 ---
 
-## 🔮 Offline Ollama & Open-Weight LLM Setup
+## 🔬 The 4-Step Forensic Pipeline
 
-**PhantomLedger works immediately out-of-the-box even if Ollama is not installed** thanks to its built-in Zero-Dependency Deterministic Séance Engine.
-
-To enable live open-weight LLM inference via **Ollama**:
-
-```bash
-# 1. Install Ollama from https://ollama.com and start the local server
-ollama serve
-
-# 2. Pull any of the supported open-weight models:
-ollama pull llama3.2:3b
-ollama pull mistral:7b
-ollama pull qwen2.5:3b
-ollama pull phi3.5
+```
++---------------------------------------------------------------------------------------------------+
+|                                  FaceLedger Forensic Workflow                                     |
++---------------------------------------------------------------------------------------------------+
+|                                                                                                   |
+|  1. Ingestion:     Upload image or scan webcam -> Extracts 128-D vector & SHA-256 hash            |
+|                                       |                                                           |
+|  2. OSINT Search:  Queries social indexes -> Discovers source URLs, authors, and similarity %     |
+|                                       |                                                           |
+|  3. Mine Block:    Select match -> Mines PoW block (Nonce search) -> Signs with ECDSA key         |
+|                                       |                                                           |
+|  4. Verification:  Re-verifies on-chain -> Simulates field alteration -> Catches data tampering   |
+|                                                                                                   |
++---------------------------------------------------------------------------------------------------+
 ```
 
-Once running on `http://localhost:11434`, the Sovereignty HUD automatically switches its badge to **`🟢 OLLAMA DAEMON (:11434)`** and lets you hot-swap models or customize the system prompt live.
+### Step 1: Ingestion & Feature Encoding
+* Accepts PNG/JPEG uploads or live webcam captures.
+* Normalizes facial geometry, crops to standard coordinate space, and generates:
+  * **128-D L2 Biometric Vector**: Combining landmark distances, eye-to-nose-to-mouth aspect ratios, and discrete cosine transform frequency coefficients.
+  * **Cryptographic Hashes**: Raw byte SHA-256 digest and 64-bit visual perceptual hash (`pHash`/`dHash`).
+
+### Step 2: Reverse Web Search & Matching
+* Discovers public web and social posts matching candidate faces across Twitter/X, Reddit, Instagram, LinkedIn, Wikipedia, and Tech News.
+* Computes dual-layer confidence:
+  $$\text{Cosine Similarity} = \frac{\mathbf{u} \cdot \mathbf{v}}{\|\mathbf{u}\|_2 \|\mathbf{v}\|_2}$$
+  coupled with Hamming distance across perceptual hash representations.
+
+### Step 3: Merkle Tree Anchoring & Mining
+* Bundles transaction metadata (record ID, author, image hash, source URL, embedding digest, timestamp) into canonical JSON.
+* Inserts the transaction as a leaf node in a binary **Merkle Tree**, computes the root hash, finds the Proof-of-Work nonce meeting the difficulty target (`0x00...`), and signs the block header using the node's **ECDSA `secp256k1`** private key.
+
+### Step 4: Verification & Tamper Detection Lab
+* Audits any candidate receipt against the immutable ledger.
+* Users can toggle interactive tamper simulations:
+  * **Alter Author Handle**: (e.g. `@sarah_c` &rarr; `@sarah_x`) &rarr; Triggers payload hash mismatch and breaks Merkle root.
+  * **Alter Image Hash (1 Byte)**: (e.g. changing trailing hex character) &rarr; Triggers cryptographic mismatch.
+  * **Alter Biometric Vector**: Mismatches 128-D embedding digest against on-chain block receipt.
 
 ---
 
-## 🚀 Quickstart Guide
+## ⛓️ Cryptographic Blockchain Details
+
+### 1. Native Python Verifiable Ledger
+The native ledger runs locally on the node with zero cloud dependencies:
+* **Hashing Algorithm**: SHA-256
+* **Consensus**: Proof-of-Work with dynamic difficulty (`0x00...` target)
+* **Merkle Trees**: Binary state tree supporting cryptographic membership proofs (`get_proof` and `verify_proof`)
+* **Validator Signatures**: ECDSA over `secp256k1` elliptic curve
+* **Block Schema**:
+  ```json
+  {
+    "index": 1,
+    "timestamp": "2026-08-31T17:35:00Z",
+    "transactions_count": 1,
+    "merkle_root": "a78f23c914e0...98bc",
+    "previous_hash": "004a8b721102...112e",
+    "nonce": 482,
+    "difficulty": 2,
+    "hash": "0081f42d991b...66a9",
+    "signature": "3045022100...0220"
+  }
+  ```
+
+### 2. EVM Solidity Smart Contract (`contracts/FaceEvidenceRegistry.sol`)
+For public or consortium EVM deployments (Ethereum Sepolia, Polygon Amoy, Arbitrum, or local Anvil/Hardhat):
+
+```solidity
+function recordEvidence(
+    string calldata recordId,
+    string calldata postUrl,
+    string calldata author,
+    string calldata imageHashSha256,
+    string calldata faceEmbeddingDigest,
+    string calldata merkleRoot
+) external returns (bool);
+
+function verifyEvidence(
+    string calldata recordId,
+    string calldata candidateImageHashSha256,
+    string calldata candidatePostUrl
+) external view returns (bool isValid, uint256 timestamp, address recorder);
+```
+
+---
+
+## 🚀 Quick Start
 
 ### Prerequisites
-* **Python 3.10+**
-* **Node.js v18+** & **npm**
+* **Python 3.10+** (Python 3.10, 3.11, 3.12 supported)
+* **Node.js 18+** & **npm**
 
-### 1. Install Python Dependencies
+### 1. Clone the Repository
+```bash
+git clone https://github.com/harinarayana1457-cmyk/HHG-3-FaceLedger-Blockchain.git
+cd HHG-3-FaceLedger-Blockchain
+```
+
+### 2. Install Python Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Build the Haunted Forensic Terminal Frontend
+### 3. Build the Frontend
 ```bash
 cd frontend
 npm install
@@ -134,66 +205,87 @@ npm run build
 cd ..
 ```
 
-### 3. Launch PhantomLedger
+### 4. Launch Application
+Run the single-command launcher:
 ```bash
 python run.py
 ```
-* **Main Haunted Forensic Terminal:** [http://localhost:8000](http://localhost:8000)
-* **Interactive API Documentation (Swagger UI):** [http://localhost:8000/docs](http://localhost:8000/docs)
 
----
-
-## 📂 Project Structure
-
-```text
-HHG-3/
-├── backend/
-│   ├── face_engine.py               # OpenCV face detection, landmarks, 128-D embeddings, SHA-256, dHash
-│   ├── search_engine.py             # OSINT Phantom Radar, 128-D Euclidean/cosine scorer & fallback index
-│   ├── blockchain_engine.py         # Binary Merkle trees, ECDSA secp256k1 authority, PoW mining, ledger
-│   └── main.py                      # FastAPI REST API & static web server
-├── src/
-│   └── ai/
-│       └── phantomAgent.js          # Root mirror of the Open-Weight AI Séance Engine
-├── frontend/
-│   ├── src/
-│   │   ├── ai/
-│   │   │   └── phantomAgent.js      # Ollama client (:11434), System Prompt presets & Offline Séance Engine
-│   │   ├── components/
-│   │   │   ├── VectorGhostRadar.jsx # 128-D Polar Radar Oscilloscope & 64-Channel Spectrum Comparator
-│   │   │   ├── SeanceEnginePanel.jsx# Spooky Log + Forensic Audit tabs & System Prompt Editor
-│   │   │   ├── BlockchainExplorer.jsx# Live Merkle block visualizer & transaction search
-│   │   │   └── VerificationLab.jsx  # Interactive 1-bit cryptographic tamper simulator
-│   │   ├── App.jsx                  # Haunted Forensic Terminal, Sovereignty HUD & Haunted Shell Bar
-│   │   └── index.css                # Cyber-Occult phosphor/obsidian styles
-│   └── package.json
-├── contracts/
-│   ├── FaceEvidenceRegistry.sol     # Solidity smart contract for EVM chains
-│   └── deploy.py                    # Web3.py deployment script
-├── tests/                           # End-to-end automated test suite
-├── SUBMISSION_POST.md               # "Ghost in the Machine" Challenge Submission Post
-├── run.py                           # Single-command full-stack launcher
-└── requirements.txt
-```
+* **Web Interface**: [`http://127.0.0.1:8000`](http://127.0.0.1:8000)
+* **Interactive API Documentation (Swagger UI)**: [`http://127.0.0.1:8000/docs`](http://127.0.0.1:8000/docs)
+* **Alternative Live Demo**: [`https://harinarayana1457-cmyk.github.io/HHG-3/`](https://harinarayana1457-cmyk.github.io/HHG-3/)
 
 ---
 
 ## 🧪 Automated Testing
 
-Run the complete unit and end-to-end integration test suite:
+Run the automated test suite across all sub-systems:
 
 ```bash
-python -m tests.test_face_engine
-python -m tests.test_blockchain
-python -m tests.test_search_engine
-python -m tests.test_api
+# 1. Face Detection & 128-D Biometric Encoding
+python -m unittest tests/test_face_engine.py
+
+# 2. Merkle Tree, PoW Mining & Tamper Detection
+python -m unittest tests/test_blockchain.py
+
+# 3. Reverse Web Search & Similarity Scoring
+python -m unittest tests/test_search_engine.py
+
+# 4. End-to-End FastAPI Integration Tests
+python -m unittest tests/test_api.py
 ```
 
 ---
 
-## 📜 License
+## 📁 Project Structure
 
-Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for full details.
+```
+HHG-3-FaceLedger-Blockchain/
+├── backend/
+│   ├── face_engine.py           # Face detection, 128-d embeddings, SHA-256 & pHash
+│   ├── search_engine.py         # Reverse web/social OSINT discovery engine & similarity scorer
+│   ├── blockchain_engine.py     # Merkle trees, PoW mining, ECDSA validator signatures
+│   └── main.py                  # FastAPI REST API & static file server
+├── contracts/
+│   ├── FaceEvidenceRegistry.sol # Solidity smart contract for EVM networks
+│   ├── deploy.py                # Web3.py automated contract deployment script
+│   └── README.md                # Smart contract deployment guide
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Navbar.jsx               # Header & real-time block height monitor
+│   │   │   ├── FaceScanner.jsx          # File drop, live webcam, 128-d vector chart, presets
+│   │   │   ├── WebSearch.jsx            # Live search radar, match cards, confidence meters
+│   │   │   ├── BlockchainAnchor.jsx     # PoW mining animator & transaction receipt
+│   │   │   ├── VerificationLab.jsx      # Interactive audit & real-time tamper simulator
+│   │   │   └── BlockchainExplorer.jsx   # Live block visualizer & Merkle root inspector
+│   │   ├── App.jsx                      # Main forensic application dashboard
+│   │   ├── main.jsx                     # React entry point
+│   │   └── index.css                    # Tailwind CSS styles & cyberpunk design tokens
+│   ├── package.json
+│   └── vite.config.js
+├── sample_faces/                        # 1-click test evaluation portrait gallery
+│   ├── generate_samples.py              # Automated synthetic sample generator
+│   ├── sample_1_sarah.jpg
+│   ├── sample_2_david.jpg
+│   ├── sample_3_elena.jpg
+│   └── sample_4_marcus.jpg
+├── tests/
+│   ├── test_face_engine.py              # Biometric extraction tests
+│   ├── test_blockchain.py               # Proof-of-work, Merkle tree & signature tests
+│   ├── test_search_engine.py            # OSINT search & cosine similarity tests
+│   └── test_api.py                      # FastAPI endpoint integration tests
+├── run.py                               # Single-command launcher
+├── requirements.txt                     # Python dependencies
+├── LICENSE                              # MIT License
+└── README.md                            # Comprehensive documentation
+```
+
+---
+
+## 📄 License
+
+Distributed under the **[MIT License](LICENSE)**. See [`LICENSE`](LICENSE) for more details.
 
 ---
 
