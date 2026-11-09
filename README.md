@@ -1,25 +1,28 @@
 <div align="center">
 
-# 🔍 FaceLedger (HHG-3)
-### Biometric Facial Verification, Web OSINT Discovery & Cryptographic Merkle Blockchain Registry
+# 🔍 FaceLedger (`HHG-3`)
+### Trace a Face Across the Web. Prove It On-Chain.
 
-An end-to-end forensic digital provenance pipeline that extracts 128-dimensional biometric facial embeddings, discovers matching web and social media sources across public OSINT platforms, and anchors tamper-evident cryptographic evidence onto a custom Merkle-tree blockchain and EVM smart contract registry with real-time audit verification.
+An end-to-end forensic media provenance pipeline combining **128-D OpenCV biometric feature extraction**, **live Yandex CBIR reverse web discovery**, and a **tamper-evident Merkle-tree Proof-of-Work blockchain & EVM smart contract registry** inside a minimalist dark-obsidian React interface.
 
+[![Live Demo](https://img.shields.io/badge/GitHub_Pages-Live_Demo-10B981?style=for-the-badge&logo=github)](https://harinarayana1457-cmyk.github.io/HHG-3-FaceLedger-Blockchain/)
+[![Deploy with Vercel](https://img.shields.io/badge/Vercel-Serverless_Ready-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/new/clone?repository-url=https://github.com/harinarayana1457-cmyk/HHG-3-FaceLedger-Blockchain)
 [![Python Version](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![React](https://img.shields.io/badge/React-18.2-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![OpenCV](https://img.shields.io/badge/Computer_Vision-OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)](https://opencv.org/)
+[![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![OpenCV](https://img.shields.io/badge/OpenCV-4.9-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)](https://opencv.org/)
 [![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636?style=for-the-badge&logo=solidity&logoColor=white)](https://soliditylang.org/)
-[![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10B981?style=for-the-badge)](./LICENSE)
 
 <br>
 
 <p align="center">
-  <a href="#-key-features"><b>Explore Features</b></a> •
+  <a href="#-overview"><b>Overview</b></a> •
+  <a href="#-key-features"><b>Key Features</b></a> •
   <a href="#-system-architecture"><b>Architecture</b></a> •
   <a href="#-the-4-step-forensic-pipeline"><b>Forensic Pipeline</b></a> •
+  <a href="#-api-endpoints"><b>API Endpoints</b></a> •
   <a href="#-cryptographic-blockchain-details"><b>Blockchain Specs</b></a> •
   <a href="#-quick-start"><b>Quick Start</b></a> •
   <a href="#-automated-testing"><b>Testing</b></a> •
@@ -33,61 +36,84 @@ An end-to-end forensic digital provenance pipeline that extracts 128-dimensional
 
 ## 📖 Overview
 
-In an era of generative AI deepfakes, manipulated profile images, and unverified digital identities, establishing the origin and integrity of human facial media is a critical digital forensics challenge.
+Establishing the origin, public footprint, and integrity of portrait imagery is critical when combating unauthorized redistribution, synthetic media impersonation, and metadata forgery.
 
-**FaceLedger (HHG-3)** provides a complete forensic pipeline that:
-1. Ingests images via file upload or live webcam.
-2. Extracts **128-dimensional L2-normalized biometric embeddings** and perceptual image hashes (`SHA-256`, `pHash`, `dHash`).
-3. Discovers matching public web posts across social platforms (Twitter/X, Reddit, Instagram, LinkedIn, Wikipedia, and News).
-4. Commits canonical evidence packages to an immutable **Merkle-tree Proof-of-Work blockchain** and an **EVM Solidity smart contract**.
-5. Provides an interactive **Tamper Verification Laboratory** allowing users to simulate 1-byte data corruption and observe cryptographic audit failure in real time.
+**FaceLedger** automates the entire verification workflow in a single pass: upload any portrait image, and the pipeline automatically detects facial landmarks, computes **128-dimensional biometric embeddings** alongside **SHA-256** and **64-bit difference hashes (`dHash`/`pHash`)**, queries **Yandex CBIR Reverse Image Search** to locate real matching web pages and social posts, seals the top evidence match into a **Proof-of-Work block with a binary Merkle root and `secp256k1` ECDSA signature**, and exposes an interactive **Re-verify & Tamper Simulation Lab**.
+
+```
++---------------------------------------------------------------------------------------------------+
+|  [FaceLedger]  Biometric provenance, on-chain                              (o) Node online  #N    |
++---------------------------------------------------------------------------------------------------+
+|                                                                                                   |
+|       (✓) Detect face  ───────  (✓) Web discovery  ───────  (✓) Anchor block  ───────  (✓) Verify |
+|                                                                                                   |
+|  SOURCE IMAGE                                    WEB MATCH (Top 3 Interactive Matches)            |
+|  +------------------------------------------+    +---------------------------------------------+  |
+|  |  [ Portrait Preview + Scan Overlay ]     |    |  [ 99% Similarity Badge ]                   |  |
+|  +------------------------------------------+    +---------------------------------------------+  |
+|  | Confidence: 98.4% | Vector: 128-D        |    | (*) Exact match - Twitter/X          [ -> ] |  |
+|  | pHash: a4c291f0... | SHA-256: 7f3b...8c  |    | (*) Similar match - News / Media     [ -> ] |  |
+|  +------------------------------------------+    +---------------------------------------------+  |
+|                                                                                                   |
+|  BLOCKCHAIN EVIDENCE                                                     [o Anchored on-chain]    |
+|  +---------------------------------------------------------------------------------------------+  |
+|  | Block Height: #N | Block Hash: 00a9f2... | Merkle Root: 8c1d4b... | Signature: secp256k1    |  |
+|  | Tx ID: tx_...                                                                               |  |
+|  | [ Re-verify against chain ]                         [ Simulate tampering ]                  |  |
+|  +---------------------------------------------------------------------------------------------+  |
++---------------------------------------------------------------------------------------------------+
+```
 
 ---
 
 ## ✨ Key Features
 
-| Capability | Technical Implementation & Forensic Benefit |
+| Capability | Technical Implementation & Forensic Value |
 | :--- | :--- |
-| **🧬 Biometric Embedding Engine** | Generates a 128-D L2-normalized vector combining facial geometry, local structural gradients, and 2D-DCT frequency coefficients alongside image SHA-256 and 64-bit Perceptual Hashes (`pHash`/`dHash`). |
-| **🌐 Multi-Engine OSINT Discovery** | Queries public web and social media sources (Twitter/X, Reddit, Instagram, LinkedIn, Wikipedia, and Tech News), computing cosine similarity and perceptual matching against candidate faces. |
-| **⛓️ Native Merkle-Tree Blockchain** | Self-contained Python blockchain implementing binary Merkle trees, SHA-256 Proof-of-Work mining (`0x00...` difficulty target), and ECDSA (`secp256k1`) validator signatures with zero external gas costs. |
-| **📜 EVM Solidity Smart Contract** | `FaceEvidenceRegistry.sol` ready for Ethereum (Sepolia), Polygon (Amoy), Arbitrum, or local Anvil/Hardhat deployment, storing record IDs, hashes, and Merkle roots on-chain. |
-| **🛡️ Interactive Tamper Simulator** | Live audit lab where users compare authentic on-chain receipts against modified fields (e.g. altering 1 character in author handle or 1 byte in image hash) with instant visual diffs and Merkle proof path inspections. |
-| **🎛️ Cyber-Security Web Dashboard** | Dark-mode interface built with React 18 and Tailwind CSS, featuring a 4-step workflow wizard, 1-click test face presets, vector radar chart, webcam scanner, and live Block Explorer. |
+| **🧬 Biometric Feature Encoding** | Detects primary faces via OpenCV Haar cascades (`frontalface_default`, `frontalface_alt2`, `eye`), computes a **128-D L2-normalized embedding vector** combining spatial ratios and frequency features, plus **SHA-256** raw image digests and **64-bit perceptual difference hashes (`dHash`)**. |
+| **🌐 Real Live Reverse Image Search** | Queries **Yandex CBIR (`yandex.com/images/search`)** directly via `SearchEngine`, parsing *"Sites with this image"* for exact source page URLs (`0.99` score) alongside *"Similar Images"* (`0.85` score) while stripping URL tracking parameters (`utm_*`, `refer`). |
+| **🏷️ Automated Platform Classification** | Classifies discovered source URLs across 11+ categories including **Twitter/X**, **Instagram**, **Reddit**, **Pinterest**, **YouTube**, **TikTok**, **Facebook**, **Wikipedia**, **News / Media**, and **Official Websites**. |
+| **⛓️ Native Merkle Proof-of-Work Ledger** | Self-contained Python blockchain featuring binary Merkle Trees (`get_proof` / `verify_proof`), adjustable SHA-256 Proof-of-Work mining (`0x00...`), and `secp256k1` ECDSA validator signatures persisted in `blockchain_ledger.json`. |
+| **📜 EVM Solidity Registry Contract** | Includes [`contracts/FaceEvidenceRegistry.sol`](./contracts/FaceEvidenceRegistry.sol) and a `web3.py` deployment script for Ethereum (Sepolia), Polygon (Amoy), Arbitrum, or local Anvil/Hardhat nodes. |
+| **🛡️ Interactive Verification & Tamper Lab** | Automatically verifies newly anchored blocks and provides one-click **Simulate tampering** (altering the anchored `post_url` to demonstrate immediate Merkle root and block signature invalidation) vs. **Re-verify against chain**. |
+| **🎨 Redesigned Dark-Obsidian Interface** | Built with React 18.3, Vite 5.2, and Tailwind CSS 3.4 on an ambient `#09090b` canvas with a 4-stage progress stepper, copyable cryptographic fields, live node health status, and zero-build Vercel serverless support. |
 
 ---
 
 ## 🏛️ System Architecture
 
-The following diagram illustrates the end-to-end evidence pipeline—from image ingestion and biometric feature extraction through reverse search discovery, blockchain anchoring, and tamper-evident verification:
+The diagram below traces the automated execution flow across the React UI, FastAPI serverless/local endpoints, OpenCV vision engine, Yandex CBIR reverse search, and Merkle Proof-of-Work ledger:
 
 ```mermaid
 flowchart TD
-    subgraph INGESTION ["Step 1: Ingestion & Biometric Encoding"]
-        A["User Image / Webcam Scan"] --> B["Face Detection & Landmark Alignment"]
-        B --> C["128-D L2-Normalized Biometric Vector"]
-        B --> D["SHA-256 Digest & 64-bit Perceptual Hash"]
+    subgraph UI ["🖥️ Dark-Obsidian Frontend (React 18 + Tailwind CSS)"]
+        A["Image Upload / Drag & Drop"] --> B["4-Stage Progress Stepper"]
+        B --> C["Source Metadata & Web Match Selector"]
+        C --> D["Blockchain Evidence & Audit Controls"]
     end
 
-    subgraph DISCOVERY ["Step 2: Reverse Web & OSINT Discovery"]
-        C & D --> E["Multi-Engine Web & Social Discovery"]
-        E --> F["Twitter/X, Reddit, Instagram, LinkedIn, News"]
-        F --> G["Ranked Matches with Cosine Similarity Scores"]
+    subgraph API ["⚡ FastAPI Backend / Vercel Serverless (backend/main.py & api/index.py)"]
+        E1["POST /api/face/detect"]
+        E2["POST /api/search/web"]
+        E3["POST /api/blockchain/anchor"]
+        E4["POST /api/blockchain/verify & tamper-demo"]
     end
 
-    subgraph BLOCKCHAIN ["Step 3: Blockchain Anchoring & Mining"]
-        G --> H["Canonical JSON Packaging & Merkle Leaf"]
-        H --> I["Proof-of-Work Mining (Target: 0x00...)"]
-        I --> J["ECDSA secp256k1 Validator Signature"]
-        J --> K["Immutable Block Mined & Linked to Ledger"]
+    subgraph CORE ["⚙️ Cryptographic & Vision Engines"]
+        F1["FaceEngine (OpenCV Haar Cascades, 128-D L2 Vector, dHash, SHA-256)"]
+        F2["SearchEngine (Yandex CBIR Exact Sites + Similar Images Parser)"]
+        F3["BlockchainEngine (Binary Merkle Tree, PoW Nonce Mining, ECDSA secp256k1)"]
+        F4["Solidity Registry (contracts/FaceEvidenceRegistry.sol)"]
     end
 
-    subgraph VERIFICATION ["Step 4: Tamper-Evident Verification Lab"]
-        K --> L["On-Chain State Query & Merkle Path Recomputation"]
-        L --> M{"Cryptographic Match?"}
-        M -->|All Hashes & Signatures Match| N["VERIFIED AUTHENTIC"]
-        M -->|Any Byte or Text Modified| O["TAMPER DETECTED / INVALID"]
-    end
+    A --> E1 --> F1
+    F1 --> E2 --> F2
+    F2 --> C
+    F2 --> E3 --> F3
+    F3 -.Optional EVM Sync.-> F4
+    D --> E4 --> F3
+    F3 -->|Match| V1["Verified Authentic (Merkle Path Valid)"]
+    F3 -->|Altered Field| V2["Tampering Detected (Audit Failure)"]
 ```
 
 ---
@@ -96,58 +122,56 @@ flowchart TD
 
 ```
 +---------------------------------------------------------------------------------------------------+
-|                                  FaceLedger Forensic Workflow                                     |
+|                                   FaceLedger Automated Pipeline                                   |
 +---------------------------------------------------------------------------------------------------+
 |                                                                                                   |
-|  1. Ingestion:     Upload image or scan webcam -> Extracts 128-D vector & SHA-256 hash            |
-|                                       |                                                           |
-|  2. OSINT Search:  Queries social indexes -> Discovers source URLs, authors, and similarity %     |
-|                                       |                                                           |
-|  3. Mine Block:    Select match -> Mines PoW block (Nonce search) -> Signs with ECDSA key         |
-|                                       |                                                           |
-|  4. Verification:  Re-verifies on-chain -> Simulates field alteration -> Catches data tampering   |
+|  1. Detect Face    -->  OpenCV bounding box, landmark estimation, 128-D vector, dHash & SHA-256   |
+|                                         |                                                         |
+|  2. Web Discovery  -->  Yandex CBIR upload -> Parses exact source pages & visually similar hits   |
+|                                         |                                                         |
+|  3. Anchor Block   -->  Packages top match -> Computes Merkle Root -> Mines PoW & signs ECDSA key |
+|                                         |                                                         |
+|  4. Verify & Audit -->  Auto-verifies block -> Toggle "Simulate tampering" vs "Re-verify chain"   |
 |                                                                                                   |
 +---------------------------------------------------------------------------------------------------+
 ```
 
-### Step 1: Ingestion & Feature Encoding
-* Accepts PNG/JPEG uploads or live webcam captures.
-* Normalizes facial geometry, crops to standard coordinate space, and generates:
-  * **128-D L2 Biometric Vector**: Combining landmark distances, eye-to-nose-to-mouth aspect ratios, and discrete cosine transform frequency coefficients.
-  * **Cryptographic Hashes**: Raw byte SHA-256 digest and 64-bit visual perceptual hash (`pHash`/`dHash`).
+1. **Detect Face (`POST /api/face/detect`)**: Decodes the uploaded portrait, locates facial landmarks, generates the normalized **128-dimensional embedding vector**, and computes both the **64-bit perceptual difference hash (`dHash`)** and raw byte **SHA-256** fingerprint.
+2. **Web Discovery (`POST /api/search/web`)**: Submits the face image to Yandex CBIR (`?rpt=imageview`), extracts exact page appearances under *"Sites with this image"* followed by visually similar candidates, strips analytics query parameters, and tags platform origins.
+3. **Anchor Block (`POST /api/blockchain/anchor`)**: Automatically seals the top web match (canonical URL, platform, author, title, SHA-256 digest, `pHash`, and embedding digest) into a binary **Merkle Tree**, solves the Proof-of-Work difficulty puzzle, and signs the block with `secp256k1`.
+4. **Verify & Tamper Audit (`POST /api/blockchain/verify` & `/api/blockchain/tamper-demo`)**: Validates the anchored receipt against the persisted ledger (`Verified authentic`). Clicking **Simulate tampering** injects a forged URL (`https://fake-tampered-site.com/altered-fake-url`) and executes a live verification pass to showcase deterministic audit failure (`Tampering detected`).
 
-### Step 2: Reverse Web Search & Matching
-* Discovers public web and social posts matching candidate faces across Twitter/X, Reddit, Instagram, LinkedIn, Wikipedia, and Tech News.
-* Computes dual-layer confidence:
-  $$\text{Cosine Similarity} = \frac{\mathbf{u} \cdot \mathbf{v}}{\|\mathbf{u}\|_2 \|\mathbf{v}\|_2}$$
-  coupled with Hamming distance across perceptual hash representations.
+---
 
-### Step 3: Merkle Tree Anchoring & Mining
-* Bundles transaction metadata (record ID, author, image hash, source URL, embedding digest, timestamp) into canonical JSON.
-* Inserts the transaction as a leaf node in a binary **Merkle Tree**, computes the root hash, finds the Proof-of-Work nonce meeting the difficulty target (`0x00...`), and signs the block header using the node's **ECDSA `secp256k1`** private key.
+## 📡 API Endpoints
 
-### Step 4: Verification & Tamper Detection Lab
-* Audits any candidate receipt against the immutable ledger.
-* Users can toggle interactive tamper simulations:
-  * **Alter Author Handle**: (e.g. `@sarah_c` &rarr; `@sarah_x`) &rarr; Triggers payload hash mismatch and breaks Merkle root.
-  * **Alter Image Hash (1 Byte)**: (e.g. changing trailing hex character) &rarr; Triggers cryptographic mismatch.
-  * **Alter Biometric Vector**: Mismatches 128-D embedding digest against on-chain block receipt.
+The FastAPI server exposes interactive OpenAPI / Swagger documentation at `/docs`:
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/health` | Returns node status, current blockchain height, latest block hash, and authority public key |
+| `POST` | `/api/face/detect` | Extracts bounding boxes, landmarks, 128-D embedding, `dHash`/`pHash`, and SHA-256 digest |
+| `POST` | `/api/search/web` | Performs live Yandex CBIR reverse image search returning exact and similar web matches |
+| `POST` | `/api/blockchain/anchor` | Mines a new Proof-of-Work block anchoring match evidence and Merkle root on-chain |
+| `POST` | `/api/blockchain/verify` | Audits candidate record metadata against the stored Merkle proof path and block signature |
+| `POST` | `/api/blockchain/tamper-demo` | Simulates field mutation against an existing `tx_id` to demonstrate tamper detection |
+| `GET` | `/api/blockchain/ledger` | Returns the complete block chain, transaction history, and ledger metadata |
+| `GET` | `/api/sample-faces` | Returns bundled base64 sample portrait metadata from `sample_faces/` |
 
 ---
 
 ## ⛓️ Cryptographic Blockchain Details
 
-### 1. Native Python Verifiable Ledger
-The native ledger runs locally on the node with zero cloud dependencies:
-* **Hashing Algorithm**: SHA-256
-* **Consensus**: Proof-of-Work with dynamic difficulty (`0x00...` target)
-* **Merkle Trees**: Binary state tree supporting cryptographic membership proofs (`get_proof` and `verify_proof`)
-* **Validator Signatures**: ECDSA over `secp256k1` elliptic curve
-* **Block Schema**:
+### 1. Native Python Verifiable Ledger (`backend/blockchain_engine.py`)
+* **Hashing Algorithm**: SHA-256 (`hashlib`)
+* **Consensus**: Proof-of-Work nonce search (`0x00...` difficulty prefix)
+* **State Integrity**: Binary Merkle Tree with inclusion proof generation (`get_proof`) and validation (`verify_proof`)
+* **Validator Authority**: ECDSA digital signatures over elliptic curve `secp256k1` (`ecdsa`)
+* **Block Structure**:
   ```json
   {
     "index": 1,
-    "timestamp": "2026-08-31T17:35:00Z",
+    "timestamp": "2026-11-09T06:50:00Z",
     "transactions_count": 1,
     "merkle_root": "a78f23c914e0...98bc",
     "previous_hash": "004a8b721102...112e",
@@ -159,7 +183,7 @@ The native ledger runs locally on the node with zero cloud dependencies:
   ```
 
 ### 2. EVM Solidity Smart Contract (`contracts/FaceEvidenceRegistry.sol`)
-For public or consortium EVM deployments (Ethereum Sepolia, Polygon Amoy, Arbitrum, or local Anvil/Hardhat):
+Ready for deployment to Ethereum Sepolia, Polygon Amoy, Arbitrum, or local Hardhat/Anvil chains via `contracts/deploy.py`:
 
 ```solidity
 function recordEvidence(
@@ -183,8 +207,8 @@ function verifyEvidence(
 ## 🚀 Quick Start
 
 ### Prerequisites
-* **Python 3.10+** (Python 3.10, 3.11, 3.12 supported)
-* **Node.js 18+** & **npm**
+* **Python 3.10+**
+* **Node.js 18+** & **npm** (only required if modifying/rebuilding the React frontend)
 
 ### 1. Clone the Repository
 ```bash
@@ -197,7 +221,7 @@ cd HHG-3-FaceLedger-Blockchain
 pip install -r requirements.txt
 ```
 
-### 3. Build the Frontend
+### 3. Build the Frontend *(Optional — prebuilt `frontend/dist` is included)*
 ```bash
 cd frontend
 npm install
@@ -205,33 +229,33 @@ npm run build
 cd ..
 ```
 
-### 4. Launch Application
-Run the single-command launcher:
+### 4. Launch Local Server
 ```bash
 python run.py
 ```
+`run.py` automatically detects available ports starting from `8000`, serves the compiled React frontend + FastAPI backend together, and opens the dashboard in your browser:
 
-* **Web Interface**: [`http://127.0.0.1:8000`](http://127.0.0.1:8000)
-* **Interactive API Documentation (Swagger UI)**: [`http://127.0.0.1:8000/docs`](http://127.0.0.1:8000/docs)
-* **Alternative Live Demo**: [`https://harinarayana1457-cmyk.github.io/HHG-3/`](https://harinarayana1457-cmyk.github.io/HHG-3/)
+* **Web Application**: [`http://127.0.0.1:8000`](http://127.0.0.1:8000)
+* **Interactive API Docs (Swagger UI)**: [`http://127.0.0.1:8000/docs`](http://127.0.0.1:8000/docs)
+* **Hosted Frontend Preview**: [`https://harinarayana1457-cmyk.github.io/HHG-3-FaceLedger-Blockchain/`](https://harinarayana1457-cmyk.github.io/HHG-3-FaceLedger-Blockchain/)
+
+### 5. One-Click Serverless Deployment (Vercel)
+The repository includes [`vercel.json`](./vercel.json) and [`api/index.py`](./api/index.py), mapping `/api/(.*)` directly to the FastAPI ASGI app while serving `frontend/dist` at the edge.
 
 ---
 
 ## 🧪 Automated Testing
 
-Run the automated test suite across all sub-systems:
+Run the automated unit and integration test suites across all subsystems:
 
 ```bash
-# 1. Face Detection & 128-D Biometric Encoding
+# Run all test suites via discovery
+python -m unittest discover -s tests -v
+
+# Or target individual modules:
 python -m unittest tests/test_face_engine.py
-
-# 2. Merkle Tree, PoW Mining & Tamper Detection
-python -m unittest tests/test_blockchain.py
-
-# 3. Reverse Web Search & Similarity Scoring
 python -m unittest tests/test_search_engine.py
-
-# 4. End-to-End FastAPI Integration Tests
+python -m unittest tests/test_blockchain.py
 python -m unittest tests/test_api.py
 ```
 
@@ -241,51 +265,48 @@ python -m unittest tests/test_api.py
 
 ```
 HHG-3-FaceLedger-Blockchain/
+├── api/
+│   └── index.py                       # Vercel Python serverless FastAPI entrypoint
 ├── backend/
-│   ├── face_engine.py           # Face detection, 128-d embeddings, SHA-256 & pHash
-│   ├── search_engine.py         # Reverse web/social OSINT discovery engine & similarity scorer
-│   ├── blockchain_engine.py     # Merkle trees, PoW mining, ECDSA validator signatures
-│   └── main.py                  # FastAPI REST API & static file server
+│   ├── main.py                        # FastAPI server, API routes & SPA static file mount
+│   ├── face_engine.py                 # OpenCV face detection, 128-D embeddings, SHA-256 & dHash
+│   ├── search_engine.py               # Live Yandex CBIR reverse search & platform classifier
+│   └── blockchain_engine.py           # Binary Merkle trees, PoW mining & ECDSA signatures
 ├── contracts/
-│   ├── FaceEvidenceRegistry.sol # Solidity smart contract for EVM networks
-│   ├── deploy.py                # Web3.py automated contract deployment script
-│   └── README.md                # Smart contract deployment guide
+│   ├── FaceEvidenceRegistry.sol       # Solidity 0.8.20 smart contract for EVM chains
+│   ├── deploy.py                      # Web3.py automated contract deployment script
+│   └── README.md                      # Smart contract deployment instructions
 ├── frontend/
 │   ├── src/
-│   │   ├── components/
-│   │   │   ├── Navbar.jsx               # Header & real-time block height monitor
-│   │   │   ├── FaceScanner.jsx          # File drop, live webcam, 128-d vector chart, presets
-│   │   │   ├── WebSearch.jsx            # Live search radar, match cards, confidence meters
-│   │   │   ├── BlockchainAnchor.jsx     # PoW mining animator & transaction receipt
-│   │   │   ├── VerificationLab.jsx      # Interactive audit & real-time tamper simulator
-│   │   │   └── BlockchainExplorer.jsx   # Live block visualizer & Merkle root inspector
-│   │   ├── App.jsx                      # Main forensic application dashboard
-│   │   ├── main.jsx                     # React entry point
-│   │   └── index.css                    # Tailwind CSS styles & cyberpunk design tokens
-│   ├── package.json
-│   └── vite.config.js
-├── sample_faces/                        # 1-click test evaluation portrait gallery
-│   ├── generate_samples.py              # Automated synthetic sample generator
-│   ├── sample_1_sarah.jpg
-│   ├── sample_2_david.jpg
-│   ├── sample_3_elena.jpg
-│   └── sample_4_marcus.jpg
+│   │   ├── App.jsx                    # Redesigned 4-step dark-obsidian FaceLedger UI
+│   │   ├── main.jsx                   # React 18 Vite entrypoint
+│   │   ├── index.css                  # Tailwind CSS v3.4 base styles & grid fade tokens
+│   │   └── components/                # Modular UI components archive
+│   ├── dist/                          # Pre-compiled production static assets
+│   ├── index.html                     # HTML shell & Google Fonts (Inter / JetBrains Mono)
+│   ├── package.json                   # Frontend dependencies & Vite scripts
+│   └── vite.config.js                 # Vite 5 build configuration
+├── sample_faces/                      # Sample portrait assets & synthetic generator
+│   ├── generate_samples.py
+│   └── sample_*.jpg
 ├── tests/
-│   ├── test_face_engine.py              # Biometric extraction tests
-│   ├── test_blockchain.py               # Proof-of-work, Merkle tree & signature tests
-│   ├── test_search_engine.py            # OSINT search & cosine similarity tests
-│   └── test_api.py                      # FastAPI endpoint integration tests
-├── run.py                               # Single-command launcher
-├── requirements.txt                     # Python dependencies
-├── LICENSE                              # MIT License
-└── README.md                            # Comprehensive documentation
+│   ├── test_face_engine.py            # Face detection & biometric encoding unit tests
+│   ├── test_search_engine.py          # Reverse search & similarity scoring tests
+│   ├── test_blockchain.py             # Merkle tree, PoW & tamper audit unit tests
+│   └── test_api.py                    # End-to-end FastAPI TestClient integration suite
+├── blockchain_ledger.json             # Persisted local Proof-of-Work chain state
+├── run.py                             # Single-command launcher with port & browser detection
+├── vercel.json                        # Vercel build & /api/* rewrite configuration
+├── requirements.txt                   # Python runtime dependencies
+├── LICENSE                            # MIT License
+└── README.md                          # Project documentation
 ```
 
 ---
 
 ## 📄 License
 
-Distributed under the **[MIT License](LICENSE)**. See [`LICENSE`](LICENSE) for more details.
+Distributed under the **[MIT License](LICENSE)**. See [`LICENSE`](LICENSE) for full details.
 
 ---
 
@@ -297,5 +318,5 @@ Distributed under the **[MIT License](LICENSE)**. See [`LICENSE`](LICENSE) for m
 [![GitHub](https://img.shields.io/badge/GitHub-harinarayana1457--cmyk-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/harinarayana1457-cmyk)
 
 <div align="center">
-  <sub>Engineered for media authenticity, open-source intelligence (OSINT), and tamper-evident cryptographic digital forensics.</sub>
+  <sub>Engineered for media authenticity, live reverse image intelligence, and tamper-evident cryptographic provenance.</sub>
 </div>
